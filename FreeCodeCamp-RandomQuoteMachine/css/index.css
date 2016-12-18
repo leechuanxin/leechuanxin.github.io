@@ -1,0 +1,41 @@
+body {
+	-webkit-transition: background .4s;
+	transition: background .4s;
+}
+
+.quote-column {
+	margin-top: 100px;
+	margin-bottom: 60px;
+}
+
+blockquote {
+	-webkit-transition: border-left .4s;
+    transition: border-left .4s;
+}
+
+blockquote p {
+	font-size: 36px;
+	line-height: 1.1;
+	font-weight: 500;
+	-webkit-transition: color .4s;
+    transition: color .4s;
+}
+
+blockquote footer {
+	font-size: 100%;
+	-webkit-transition: color .4s;
+    transition: color .4s;
+}
+
+.button-container {
+	display: flex;
+	flex-direction: column-reverse;
+	justify-content: space-between;
+}
+
+@media (min-width: 540px) {
+	.button-container {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+}
