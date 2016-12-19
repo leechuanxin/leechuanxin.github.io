@@ -1,0 +1,71 @@
+body {
+	background: #000;
+	margin: 0;
+	color: #eceff1;
+}
+
+#bgVid {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	opacity: 0.6;
+	z-index: -100;
+	-ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#weatherText {
+	margin-top: 0;
+}
+
+#cityCountry {
+	margin-top: 30px;
+}
+
+#quoteHolder {
+	margin-top: 150px;
+}
+
+blockquote {
+	border-left: 0px;
+}
+
+.add-punctuation:before {
+	content: '\201c';
+	font-size: 120px;
+	position: absolute;
+	left: -30px;
+	top: -50px;
+}
+
+#weatherQuote {
+	font-size: 36px;
+}
+
+.add-punctuation:after {
+	content: '\201d';
+	position: absolute;
+	right: -30px;
+	bottom: -50px;
+	font-size: 120px;
+	/*top: 300px;*/
+}
+
+blockquote .small, blockquote footer, blockquote small {
+	font-size: 100%;
+	color: #b0bec5;
+}
+
+blockquote .small:before, blockquote footer:before, blockquote small:before {
+    content: '';
+}
+
+.add-punctuation .small:before, .add-punctuation footer:before, .add-punctuation small:before {
+    content: '\2014 \00A0';
+}
