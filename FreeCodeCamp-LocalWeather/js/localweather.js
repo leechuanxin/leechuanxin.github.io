@@ -184,7 +184,7 @@ $(document).ready(function() {
 				case 960:
 				case 961:
 					$('#loadVid').attr({
-						src: 'videos/thunderstorm.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/thunderstorm.mp4',
 						type: 'video/mp4'
 					});
 
@@ -209,7 +209,7 @@ $(document).ready(function() {
 				case 314:
 				case 321:
 					$('#loadVid').attr({
-						src: 'videos/drizzle.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/drizzle.mp4',
 						type: 'video/mp4'
 					});
 
@@ -233,7 +233,7 @@ $(document).ready(function() {
 				case 522:
 				case 531:
 					$('#loadVid').attr({
-						src: 'videos/rain.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/rain.mp4',
 						type: 'video/mp4'
 					});
 
@@ -255,7 +255,7 @@ $(document).ready(function() {
 				case 620:
 				case 621:
 					$('#loadVid').attr({
-						src: 'videos/lightsnow.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/lightsnow.mp4',
 						type: 'video/mp4'
 					});
 
@@ -280,7 +280,7 @@ $(document).ready(function() {
 				case 622:
 				case 906:
 					$('#loadVid').attr({
-						src: 'videos/snowstorm.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/snowstorm.mp4',
 						type: 'video/mp4'
 					});
 
@@ -302,7 +302,7 @@ $(document).ready(function() {
 				case 761:
 				case 762:
 					$('#loadVid').attr({
-						src: 'videos/mist.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/mist.mp4',
 						type: 'video/mp4'
 					});
 
@@ -323,7 +323,7 @@ $(document).ready(function() {
 				case 954:
 				case 955:
 					$('#loadVid').attr({
-						src: 'videos/breeze.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/breeze.mp4',
 						type: 'video/mp4'
 					});
 
@@ -347,7 +347,7 @@ $(document).ready(function() {
 				case 959:
 				case 962:
 					$('#loadVid').attr({
-						src: 'videos/wind.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/wind.mp4',
 						type: 'video/mp4'
 					});
 
@@ -374,7 +374,7 @@ $(document).ready(function() {
 				case 904:
 				case 951:
 					$('#loadVid').attr({
-						src: 'videos/clearsky.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/clearsky.mp4',
 						type: 'video/mp4'
 					});
 
@@ -391,7 +391,7 @@ $(document).ready(function() {
 				case 802:
 				case 803:
 					$('#loadVid').attr({
-						src: 'videos/fewclouds.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/fewclouds.mp4',
 						type: 'video/mp4'
 					});
 
@@ -406,7 +406,7 @@ $(document).ready(function() {
 					break;
 				case 804:
 					$('#loadVid').attr({
-						src: 'videos/overcastclouds.mp4',
+						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/overcastclouds.mp4',
 						type: 'video/mp4'
 					});
 
