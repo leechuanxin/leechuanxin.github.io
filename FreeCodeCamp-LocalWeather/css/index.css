@@ -49,15 +49,6 @@ blockquote {
 	font-size: 36px;
 }
 
-.add-punctuation:after {
-	content: '\201d';
-	position: absolute;
-	right: -30px;
-	bottom: -50px;
-	font-size: 120px;
-	/*top: 300px;*/
-}
-
 blockquote .small, blockquote footer, blockquote small {
 	font-size: 100%;
 	color: #b0bec5;
