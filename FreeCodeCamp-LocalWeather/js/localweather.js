@@ -167,7 +167,7 @@ $(document).ready(function() {
 
 			// for testing
 			// weatherTime = "n";
-			// weatherID = 200;
+			// weatherID = 804;
 
 			switch(weatherID) {
 				case 200:
@@ -186,6 +186,11 @@ $(document).ready(function() {
 					$('#loadVid').attr({
 						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/thunderstorm.mp4',
 						type: 'video/mp4'
+					});
+
+					$('#bgPhoto').css({
+						'background': 'url("img/thunderstorm.jpg")',
+						'background-size': 'cover'
 					});
 
 					document.getElementById('bgVid').playbackRate = 2;
@@ -213,6 +218,11 @@ $(document).ready(function() {
 						type: 'video/mp4'
 					});
 
+					$('#bgPhoto').css({
+						'background': 'url("img/drizzle.jpg")',
+						'background-size': 'cover'
+					});
+
 					if (weatherTime == "n") {
 						$('#weatherIcon').attr('class', 'wi wi-night-alt-showers');
 					}
@@ -237,6 +247,11 @@ $(document).ready(function() {
 						type: 'video/mp4'
 					});
 
+					$('#bgPhoto').css({
+						'background': 'url("img/rain.jpg")',
+						'background-size': 'cover'
+					});
+
 					if (weatherTime == "n") {
 						$('#weatherIcon').attr('class', 'wi wi-night-alt-rain');
 					}
@@ -257,6 +272,11 @@ $(document).ready(function() {
 					$('#loadVid').attr({
 						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/lightsnow.mp4',
 						type: 'video/mp4'
+					});
+
+					$('#bgPhoto').css({
+						'background': 'url("img/lightsnow.jpg")',
+						'background-size': 'cover'
 					});
 
 					if (weatherTime == "n") {
@@ -284,6 +304,11 @@ $(document).ready(function() {
 						type: 'video/mp4'
 					});
 
+					$('#bgPhoto').css({
+						'background': 'url("img/snowstorm.jpg")',
+						'background-size': 'cover'
+					});
+
 					if (weatherTime == "n") {
 						$('#weatherIcon').attr('class', 'wi wi-night-alt-snow-thunderstorm');
 					}
@@ -306,6 +331,11 @@ $(document).ready(function() {
 						type: 'video/mp4'
 					});
 
+					$('#bgPhoto').css({
+						'background': 'url("img/mist.jpg")',
+						'background-size': 'cover'
+					});
+
 					if (weatherID == 701 || weatherID == 721 || weatherID == 741) {
 						$('#weatherIcon').attr('class', 'wi wi-fog');
 					}
@@ -325,6 +355,11 @@ $(document).ready(function() {
 					$('#loadVid').attr({
 						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/breeze.mp4',
 						type: 'video/mp4'
+					});
+
+					$('#bgPhoto').css({
+						'background': 'url("img/breeze.jpg")',
+						'background-size': 'cover'
 					});
 
 					if (weatherTime == "n") {
@@ -349,6 +384,12 @@ $(document).ready(function() {
 					$('#loadVid').attr({
 						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/wind.mp4',
 						type: 'video/mp4'
+					});
+
+					$('#bgPhoto').css({
+						'background': 'url("img/wind.jpg")',
+						'background-size': 'cover',
+						'opacity': '0.3'
 					});
 
 					$('#bgVid').css('opacity', '0.3');
@@ -378,6 +419,11 @@ $(document).ready(function() {
 						type: 'video/mp4'
 					});
 
+					$('#bgPhoto').css({
+						'background': 'url("img/clearsky.jpg")',
+						'background-size': 'cover'
+					});
+
 					if (weatherTime == "n") {
 						$('#weatherIcon').attr('class', 'wi wi-night-clear');
 					}
@@ -395,6 +441,11 @@ $(document).ready(function() {
 						type: 'video/mp4'
 					});
 
+					$('#bgPhoto').css({
+						'background': 'url("img/fewclouds.jpg")',
+						'background-size': 'cover'
+					});
+
 					if (weatherTime == "n") {
 						$('#weatherIcon').attr('class', 'wi wi-night-alt-cloudy');
 					}
@@ -408,6 +459,11 @@ $(document).ready(function() {
 					$('#loadVid').attr({
 						src: 'https://github.com/leechuanxin/leechuanxin.github.io/raw/master/FreeCodeCamp-LocalWeather/videos/overcastclouds.mp4',
 						type: 'video/mp4'
+					});
+
+					$('#bgPhoto').css({
+						'background': 'url("img/overcastclouds.jpg")',
+						'background-size': 'cover'
 					});
 
 					$('#weatherIcon').attr('class', 'wi wi-cloudy');
