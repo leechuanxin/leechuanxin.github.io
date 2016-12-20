@@ -49,6 +49,15 @@ body {
 	}
 }
 
+.weatherHeader {
+	margin-top: 60px;
+}
+@media (min-width: 768px) {
+	.weatherHeader {
+		margin-top: 20px;
+	}
+}
+
 
 #weatherText {
 	margin-top: 0;
@@ -57,11 +66,22 @@ body {
 
 #cityCountry {
 	margin-top: 30px;
+	text-align: center;
 }
+@media (min-width: 768px) {
+	#cityCountry {
+		text-align: left;
+	}}
 
 #quoteHolder {
-	margin-top: 150px;
+	margin-top: 100px;
 }
+@media (min-width: 992px) {
+	#quoteHolder {
+		margin-top: 150px;
+	}
+}
+
 
 blockquote {
 	border-left: 0px;
@@ -69,23 +89,68 @@ blockquote {
 
 .add-punctuation:before {
 	content: '\201c';
-	font-size: 120px;
+	font-size: 60px;
 	position: absolute;
-	left: -30px;
-	top: -50px;
+	left: 25px;
+	top: -25px;
+}
+@media (min-width: 450px) {
+	.add-punctuation:before {
+		left: 30px;
+		top: -30px;
+		font-size: 80px;
+	}
+}
+@media (min-width: 768px) {
+	.add-punctuation:before {
+		left: 10px;
+		top: -50px;
+		font-size: 120px;
+	}
 }
 
 #weatherQuote {
-	font-size: 36px;
+	font-size: 18px;
+	margin-left: 20px;
+}
+@media (min-width: 450px) {
+	#weatherQuote {
+		font-size: 24px;
+		margin-left: 40px;
+	}
+}
+@media (min-width: 768px) {
+	#weatherQuote {
+		font-size: 36px;
+	}
 }
 
 blockquote .small, blockquote footer, blockquote small {
-	font-size: 100%;
+	font-size: 80%;
 	color: #b0bec5;
 }
+@media (min-width: 450px) {
+	blockquote .small, blockquote footer, blockquote small {
+		font-size: 100%;
+	}
+}
+/*@media (min-width: 768px) {
+	blockquote .small, blockquote footer, blockquote small {
+		font-size: 100%;
+	}
+}*/
 
 blockquote .small:before, blockquote footer:before, blockquote small:before {
     content: '';
+}
+
+blockquote footer {
+	margin-left: 20px;
+}
+@media (min-width: 450px) {
+	blockquote footer {
+		margin-left: 40px;
+	}
 }
 
 .add-punctuation .small:before, .add-punctuation footer:before, .add-punctuation small:before {
