@@ -422,6 +422,19 @@ $(document).ready(function() {
 			$('#weatherSource').text(quoteArr[quoteNum]["source"]);
 			$('blockquote').attr('class', 'add-punctuation');
 
+			$('#changeTempMode').on('click', function() {
+				if (tempMode == "C") {
+					$('#weatherTemperature').html(temperatureFahrenheit.toString() + '&deg;F');
+					$('#changeTempMode').html('<i class="wi wi-thermometer"></i>&nbsp;&nbsp;Celsius');
+					tempMode = "F";
+				}
+				else {
+					$('#weatherTemperature').html(temperatureCelsius.toString() + '&deg;C');
+					$('#changeTempMode').html('<i class="wi wi-thermometer"></i>&nbsp;&nbsp;Fahrenheit');
+					tempMode = "C";
+				}
+			});
+
 			console.log(weatherData.coord.lat);
 			console.log(weatherData.coord.lon);
 			console.log("id: " + weatherData.weather[0].id);
