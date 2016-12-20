@@ -162,7 +162,7 @@ $(document).ready(function() {
 
 			$('#cityCountry').text(weatherData.name + ', ' + weatherData.sys.country);
 			$('#weatherTemperature').html(temperatureCelsius.toString() + '&deg;C');
-			$('#weatherText').text(weatherData.weather[0].description.replace(/(^| )[a-z]/g, (L) => L.toUpperCase()));
+			$('#weatherText').text(weatherData.weather[0].description.replace(/(^| )[a-z]/g, (L) => L.toUpperCase()).replace("With", "with"));
 			// $('#weatherText').text("Thunderstorm With Heavy Drizzle");
 
 			// for testing
