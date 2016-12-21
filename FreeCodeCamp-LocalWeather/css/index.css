@@ -134,11 +134,6 @@ blockquote .small, blockquote footer, blockquote small {
 		font-size: 100%;
 	}
 }
-/*@media (min-width: 768px) {
-	blockquote .small, blockquote footer, blockquote small {
-		font-size: 100%;
-	}
-}*/
 
 blockquote .small:before, blockquote footer:before, blockquote small:before {
     content: '';

@@ -163,11 +163,6 @@ $(document).ready(function() {
 			$('#cityCountry').text(weatherData.name + ', ' + weatherData.sys.country);
 			$('#weatherTemperature').html(temperatureCelsius.toString() + '&deg;C');
 			$('#weatherText').text(weatherData.weather[0].description.replace(/(^| )[a-z]/g, (L) => L.toUpperCase()).replace("With", "with"));
-			// $('#weatherText').text("Thunderstorm With Heavy Drizzle");
-
-			// for testing
-			// weatherTime = "n";
-			// weatherID = 804;
 
 			switch(weatherID) {
 				case 200:
@@ -523,16 +518,6 @@ $(document).ready(function() {
 					tempMode = "C";
 				}
 			});
-
-			console.log(weatherData.coord.lat);
-			console.log(weatherData.coord.lon);
-			console.log("id: " + weatherData.weather[0].id);
-			console.log("main weather: " + weatherData.weather[0].main);
-			console.log("weather description: " + weatherData.weather[0].description.replace(/(^ | )\w/g, (L) => L.toUpperCase()));
-			console.log("temperature (in celsius): " + Math.round(weatherData.main.temp - 273.15));
-			console.log("temperature (in fahrenheit): " + Math.round((weatherData.main.temp - 273.15) * (9 / 5) + 32));
-			console.log("city: " + weatherData.name);
-			console.log("country: " + weatherData.sys.country);
 		});
 	});
 });
