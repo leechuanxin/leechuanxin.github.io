@@ -180,3 +180,21 @@ blockquote footer {
 	color: #37474F;
 	background-color: rgba(255, 255, 255, 1);
 }
+
+#attrHolder {
+	margin-top: 50px;
+	display: none;
+}
+@media (min-width: 768px) {
+	#attrHolder {
+		margin-top: 100px;
+	}
+}
+
+#attribution a {
+	color: #eceff1;
+	text-decoration: underline;
+}
+#attribution a:hover, #attribution a:focus {
+	color: #eceff1;
+}

@@ -203,6 +203,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="http://www.beachfrontbroll.com/2014/12/FreeLightningStockFootage.html" target="_blank">Beachfront B-Roll</a>.');
 					break;
 				case 300:
 				case 301:
@@ -231,6 +234,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 5;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="http://www.lifeofvids.com/gallery/window-reflection/" target="_blank">Life Of Vids</a>.');
 					break;
 				case 500:
 				case 501:
@@ -260,6 +266,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 5;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="https://www.videezy.com/nature/2403-rain-on-a-window-hd-stock-video" target="_blank">bk-vids</a>.');
 					break;
 				case 600:
 				case 601:
@@ -295,6 +304,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 10;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="https://pixabay.com/en/videos/snowing-snowfall-light-lamp-1972/" target="_blank">mploscar</a>.');
 					break;
 				case 602:
 				case 622:
@@ -317,6 +329,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 10;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="https://pixabay.com/en/videos/snow-flurry-snowfall-snow-2502/" target="_blank">SlowMoJoe</a>.');
 					break;
 				case 701:
 				case 711:
@@ -347,6 +362,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 15;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="http://www.lifeofvids.com/gallery/haze/" target="_blank">Life Of Vids</a>.');
 					break;
 				case 952:
 				case 953:
@@ -370,6 +388,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 20;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="https://pixabay.com/en/videos/lotus-lotus-anapji-anapji-flowers-1977/" target="_blank">Free World</a>.');
 					break;
 				case 771:
 				case 781:
@@ -409,6 +430,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 20;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="http://www.lifeofvids.com/gallery/blown-leaves-asphalt/" target="_blank">Life Of Vids</a>.');
 					break;
 				case 800:
 				case 903:
@@ -432,6 +456,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 25;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="https://pixabay.com/en/videos/eagle-landing-catching-slow-motion-748/" target="_blank">Vimeo-Free-Videos</a>.');
 					break;
 				case 801:
 				case 802:
@@ -454,6 +481,9 @@ $(document).ready(function() {
 					}
 
 					quoteNum = randNum + 30;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="http://www.lifeofvids.com/gallery/automnal-sky-motion/" target="_blank">Life Of Vids</a>.');
 					break;
 				case 804:
 					$('#loadVid').attr({
@@ -469,6 +499,9 @@ $(document).ready(function() {
 					$('#weatherIcon').attr('class', 'wi wi-cloudy');
 
 					quoteNum = randNum + 30;
+
+					$('#attrHolder').css('display', 'block');
+					$('#attribution').html('The original video/photo is by <a href="https://www.videezy.com/clouds/2302-storm-clouds-time-lapse-free-footage" target="_blank">orangehd</a>. <a href="http://www.videezy.com" target="_blank">Free Stock Videos by Videezy!</a>');
 					break;
 			}
 
