@@ -20,49 +20,31 @@
 
 	<script src="js/bootstrap.min.js"></script>
 
-	<script src='js/wikipediaviewer.js'></script>
-
-	<script>
-	$(document).ready(function() {
-		$('.btn-search').click(function(event) {
-			event.preventDefault();
-
-			var inputTest = $('.search-field').val();
-
-			$('.search-wrapper').addClass('active');
-
-
-			if (!($('.col-move').hasClass('move')) && ($('.search-field').val() == 'test')) {
-				$('.col-move').addClass('move');
-			}
-		});
-
-		$('.btn-cancel').click(function(event) {
-			event.preventDefault();
-
-			$('.search-wrapper').removeClass('active');
-		});
-	});
-	</script>
-
 </head>
 
 <body>
 
+<div class="container-fluid">
+
 <form class="form-horizonal">
-	<div class="form-group">
-		<div class="col-xs-8 col-xs-offset-2 col-move">
+	<div class="form-group row-move">
+		<div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3">
 			<div class="search-wrapper">
 				<div class="input-holder">
-					<input type="text" class="form-control search-field" placeholder="Search for a Wikipedia Article">
+					<input type="text" class="form-control search-field" placeholder="Search Wikipedia">
 
-					<button type="submit" class="btn btn-default btn-cx btn-search"><i class="fa fa-search" aria-hidden="true"></i></button>
+					<button type="submit" class="btn btn-default btn-cx btn-search" id="searchBtn"><i class="fa fa-search" aria-hidden="true"></i></button>
 				</div>
-				<button type="submit" class="btn btn-default btn-cx btn-cancel" id="btn-close"><i class="fa fa-times" aria-hidden="true"></i></button>
+				<button type="submit" class="btn btn-default btn-cx btn-random" id="randomBtn"><i class="fa fa-random" aria-hidden="true"></i></button>
+				<button type="submit" class="btn btn-default btn-cx btn-cancel" id="closeBtn"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</div>
 		</div>
 	</div>
 </form>
+
+</div>
+
+<script src='js/wikipediaviewer.js'></script>
 
 </body>
 
