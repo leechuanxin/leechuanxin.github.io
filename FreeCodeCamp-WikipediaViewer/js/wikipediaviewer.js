@@ -46,7 +46,7 @@ searchBtn.addEventListener('click', function(evt) {
 													'</div>' +
 													'<div class="panel-body">' +
 														'<div class="link-wrapper">' +
-															'<a href="' + data[3][j] +'" class="link-block">LEARN MORE</a>' +
+															'<a href="' + data[3][j] +'" class="link-block">READ</a>' +
 														'</div>' +
 													'</div>' +
 												'</div>' +

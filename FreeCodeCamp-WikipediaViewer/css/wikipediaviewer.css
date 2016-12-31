@@ -339,11 +339,11 @@ body {
 	padding: 15px;
 	display: block;
 }
-@media (max-width: 450px) {
+/*@media (max-width: 450px) {
 	.panel-body .link-block {
 		padding: 10px;
 	}
-}
+}*/
 
 .panel-body .link-block:focus, .panel-body .link-block:hover {
 	color: #9C27B0;
