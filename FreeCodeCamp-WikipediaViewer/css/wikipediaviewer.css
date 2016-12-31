@@ -13,10 +13,10 @@ body {
 
 .row-move {
 	margin-top: 200px;
-	-webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-	transition: all 1s ease;
+	-webkit-transition: all 0.75s ease-in-out;
+    -moz-transition: all 0.75s ease-in-out;
+    -o-transition: all 0.75s ease-in-out;
+	transition: all 0.75s ease-in-out;
 }
 
 .row-move p {
@@ -58,7 +58,6 @@ body {
     -moz-transition: all .5s cubic-bezier(0.000, 0.105, 0.035, 1.570);
     -o-transition: all .5s cubic-bezier(0.000, 0.105, 0.035, 1.570);
 	transition: all .5s cubic-bezier(0.000, 0.105, 0.035, 1.570);
-	margin-bottom: 90px;
 }
 
 
@@ -268,6 +267,18 @@ body {
 	}
 }
 
+.row-error {
+	display: none;
+}
+.row-error.show {
+	display: block;
+}
+
+.row-error p {
+	font-size: 20px;
+	color: #fff;
+}
+
 .panel-search {
 	position: relative;
 	border: 0;
@@ -301,29 +312,8 @@ body {
 	left: 0;
 }
 
-/*.row-card:nth-child(2) .panel-color {
-	background: #E1BEE7;
-}
-
-.row-card:nth-child(3) .panel-color {
-	background: #BA68C8;
-}
-
-.row-card:nth-child(4) .panel-color {
-	background: #9C27B0;
-}
-
-.row-card:nth-child(5) .panel-color {
-	background: #7B1FA2;
-}
-
-.row-card:nth-child(6) .panel-color {
-	background: #4A148C;
-}*/
-
 .panel-body {
 	padding: 0px;
-	/*overflow: hidden;*/
 }
 
 .panel-body .link-wrapper {
@@ -333,11 +323,16 @@ body {
 	-ms-transform: translateX(-50%);
 	transform: translateX(-50%);
 	display: inline-block;
+
+	/* overflow hidden to contain overflowing ripple,
+	   vertical-align top to remove extra margin from inline-block display */
 	overflow: hidden;
 	vertical-align: top;
 }
 
 .panel-body .link-block {
+	/* if static positioned, link will appear behind absolute-positioned 
+	   ink. hence link is relative positioned to move it forward */
 	position: relative;
 	font-size: 16px;
 	color: #9C27B0;
@@ -358,7 +353,7 @@ body {
 .ink {
 	display: block;
 	position: absolute;
-	background: #BA68C8;
+	background: #CE93D8;
 	border-radius: 100%;
 	-webkit-transform: scale(0);
 	-ms-transform: scale(0);
@@ -372,6 +367,7 @@ body {
 
 @-webkit-keyframes ripple {
 	100% {
+		/* as ripple increases in size, its opacity goes to 0 */
 		opacity: 0; 
 		-webkit-transform: scale(2.5);
 		-ms-transform: scale(2.5);
@@ -380,6 +376,7 @@ body {
 }
 @keyframes ripple {
 	100% {
+		/* as ripple increases in size, its opacity goes to 0 */
 		opacity: 0; 
 		-webkit-transform: scale(2.5);
 		-ms-transform: scale(2.5);
