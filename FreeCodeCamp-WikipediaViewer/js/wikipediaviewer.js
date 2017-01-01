@@ -35,7 +35,7 @@ searchBtn.addEventListener('click', function(evt) {
 		timedRemoveSearchRow(hideRows[a]);
 	}
 
-	var searchQuery = searchField.value;
+	var searchQuery = encodeURIComponent(searchField.value);
 
 	if (!searchWrapper.classList.contains('active')) {
 		searchWrapper.className += ' ' + 'active';
