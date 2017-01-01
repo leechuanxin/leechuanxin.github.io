@@ -129,6 +129,10 @@ body {
 	border-radius: 30px;
 }
 
+.search-wrapper .input-holder .btn-search.disabled, .search-wrapper .input-holder .btn-search[disabled] {
+	opacity: 1;
+}
+
 .search-wrapper .input-holder .btn-search .fa.fa-search {
 	-webkit-transform: rotate(90deg);
 	-ms-transform: rotate(90deg);

@@ -6,11 +6,34 @@ var randomBtn = document.getElementById('randomBtn');
 var closeBtn = document.getElementById('closeBtn');
 var rowMove = document.querySelector('.row-move');
 var rowError = document.querySelector('.row-error');
-var linkBlocks = document.querySelectorAll('.link-block');
 var inkDiameter = 0;
+
+var timedRemoveSearchRow = function(node) {
+	setTimeout(function(){
+		node.parentNode.removeChild(node);
+	}, 1000);
+};
 
 searchBtn.addEventListener('click', function(evt) {
 	evt.preventDefault();
+
+	// prevent multiple searches in a short time
+	if (searchWrapper.classList.contains('active')) {
+		this.disabled = true;
+		setTimeout(function(){
+			searchBtn.disabled = false;
+		}, 1500);
+	}
+
+	// gradually remove previous search results
+	var hideRows = document.querySelectorAll('.row-card');
+	for (var a = 0; a < hideRows.length; a++) {
+		hideRows[a].classList.remove('animated');
+		hideRows[a].classList.remove('fadeIn');
+		hideRows[a].className += ' animated fadeOut';
+
+		timedRemoveSearchRow(hideRows[a]);
+	}
 
 	var searchQuery = searchField.value;
 
@@ -21,12 +44,32 @@ searchBtn.addEventListener('click', function(evt) {
 	if (searchQuery != '') {
 		$.getJSON('https://en.wikipedia.org/w/api.php?action=opensearch&prop=revisions&rvprop=content&format=json&search=' + searchQuery + '&callback=?', function(data) {
 			if (data[1].length == 0) {
-				rowError.querySelector('.text-center').textContent = "Your search '" + data[0] + "' does not match any result.";
-				rowError.style.display = 'block';
+				if (rowError.classList.contains('animated')) {
+					rowError.classList.remove('animated');
+					rowError.classList.remove('fadeIn');
+					rowError.className += ' animated fadeOut';
+				}
+
+				setTimeout(function() {
+					if (rowError.classList.contains('animated')) {
+						rowError.classList.remove('animated');
+						rowError.classList.remove('fadeOut');
+					}
+
+					rowError.className += ' animated fadeIn';
+					rowError.querySelector('.text-center').textContent = "Your search '" + data[0] + "' does not match any result.";
+					rowError.style.display = 'block';
+				}, 1000);
 			}
 			else {
 				if (rowError.style.display == 'block') {
-					rowError.style.display = 'none';
+					rowError.classList.remove('animated');
+					rowError.classList.remove('fadeIn');
+					rowError.className += ' animated fadeOut';
+					
+					setTimeout(function() {
+						rowError.style.display = 'none';
+					}, 800);
 				}
 
 				if (!rowMove.classList.contains('move')) {
@@ -125,4 +168,31 @@ closeBtn.addEventListener('click', function(evt) {
 	searchField.value = '';
 
 	searchWrapper.classList.remove('active');
+
+	// gradually remove previous search results
+	var hideRows = document.querySelectorAll('.row-card');
+	for (var a = 0; a < hideRows.length; a++) {
+		hideRows[a].classList.remove('animated');
+		hideRows[a].classList.remove('fadeIn');
+		hideRows[a].className += ' animated fadeOut';
+
+		timedRemoveSearchRow(hideRows[a]);
+	}
+
+	// move search button back to center after closing animation
+	setTimeout(function() {
+		if (rowMove.classList.contains('move')) {
+			rowMove.classList.remove('move');
+		}
+	}, 1000);
+
+	// disable all buttons throughout closing animation
+	closeBtn.disabled = true;
+	randomBtn.disabled = true;
+	searchBtn.disabled = true;
+	setTimeout(function(){
+		closeBtn.disabled = false;
+		randomBtn.disabled = false;
+		searchBtn.disabled = false;
+	}, 1500);
 });
