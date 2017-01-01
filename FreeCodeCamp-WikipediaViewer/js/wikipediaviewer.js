@@ -150,7 +150,7 @@ searchBtn.addEventListener('click', function(evt) {
 							// new window opens after animation
 							setTimeout(function(){
 							    window.open(url);
-							}, 600);
+							}, 450);
 						});
 					}
 				}, 750);
