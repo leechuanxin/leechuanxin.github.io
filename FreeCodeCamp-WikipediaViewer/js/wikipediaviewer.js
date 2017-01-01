@@ -57,14 +57,15 @@ searchBtn.addEventListener('click', function(evt) {
 				}
 
 				if (searchWrapper.classList.contains('active')) {
-					if (rowError.classList.contains('animated')) {
-						rowError.classList.remove('animated');
-						rowError.classList.remove('fadeOut');
-					}
-
-					rowError.className += ' animated fadeIn';
-					rowError.querySelector('.text-center').textContent = "Your search '" + data[0] + "' does not match any result.";
-					rowError.style.display = 'block';
+					setTimeout(function(){
+						if (rowError.classList.contains('animated')) {
+							rowError.classList.remove('animated');
+							rowError.classList.remove('fadeOut');
+						}
+						rowError.className += ' animated fadeIn';
+						rowError.querySelector('.text-center').textContent = "Your search '" + data[0] + "' does not match any result.";
+						rowError.style.display = 'block';
+					}, 500);
 				}
 			}
 			else {
