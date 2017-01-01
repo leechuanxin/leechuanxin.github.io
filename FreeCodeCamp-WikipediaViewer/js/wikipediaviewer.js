@@ -42,6 +42,12 @@ searchBtn.addEventListener('click', function(evt) {
 	}
 
 	if (searchQuery != '') {
+		// temporarily disable close button
+		closeBtn.disabled = true;
+		setTimeout(function(){
+			closeBtn.disabled = false;
+		}, 1500);
+
 		$.getJSON('https://en.wikipedia.org/w/api.php?action=opensearch&prop=revisions&rvprop=content&format=json&search=' + searchQuery + '&callback=?', function(data) {
 			if (data[1].length == 0) {
 				if (rowError.classList.contains('animated')) {
@@ -50,7 +56,7 @@ searchBtn.addEventListener('click', function(evt) {
 					rowError.className += ' animated fadeOut';
 				}
 
-				setTimeout(function() {
+				if (searchWrapper.classList.contains('active')) {
 					if (rowError.classList.contains('animated')) {
 						rowError.classList.remove('animated');
 						rowError.classList.remove('fadeOut');
@@ -59,7 +65,7 @@ searchBtn.addEventListener('click', function(evt) {
 					rowError.className += ' animated fadeIn';
 					rowError.querySelector('.text-center').textContent = "Your search '" + data[0] + "' does not match any result.";
 					rowError.style.display = 'block';
-				}, 1000);
+				}
 			}
 			else {
 				if (rowError.style.display == 'block') {
@@ -187,12 +193,24 @@ closeBtn.addEventListener('click', function(evt) {
 	}, 1000);
 
 	// disable all buttons throughout closing animation
+	// if the search button is already vertically centered,
+	// buttons should only be disabled for a shorter time
 	closeBtn.disabled = true;
 	randomBtn.disabled = true;
 	searchBtn.disabled = true;
-	setTimeout(function(){
-		closeBtn.disabled = false;
-		randomBtn.disabled = false;
-		searchBtn.disabled = false;
-	}, 1500);
+
+	if (rowMove.classList.contains('move')) {
+		setTimeout(function(){
+			closeBtn.disabled = false;
+			randomBtn.disabled = false;
+			searchBtn.disabled = false;
+		}, 2100);
+	}
+	else {
+		setTimeout(function(){
+			closeBtn.disabled = false;
+			randomBtn.disabled = false;
+			searchBtn.disabled = false;
+		}, 800);
+	}
 });
