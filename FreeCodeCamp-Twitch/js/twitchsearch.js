@@ -173,7 +173,9 @@ var main = function() {
 											'<h2 class="mdl-card__title-text">' + allArr[0][c]["stream"]["channel"]["display_name"] + '</h2>' +
 										'</div>' +
 									'</div>' +
-									'<div class="mdl-card__supporting-text">' + allArr[0][c]["stream"]["channel"]["status"] + 
+									'<div class="mdl-card__supporting-text">' + 
+										'<p class="mdl-card__game-text">' + allArr[0][c]["stream"]["game"] + '</p>' +
+										'<p class="mdl-card__status-text">' + allArr[0][c]["stream"]["channel"]["status"] + '</p>' +
 									'</div>' +
 									'<div class="mdl-card__actions mdl-card--border">' +
 										'<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" target="_blank" href="' + allArr[0][c]["stream"]["channel"]["url"] + '">' +
@@ -202,9 +204,9 @@ var main = function() {
 											'<h2 class="mdl-card__title-text">' + allArr[1][d]["_links"]["self"].slice(37) + '</h2>' +
 										'</div>' +
 									'</div>' +
-									'<div class="mdl-card__supporting-text">' +
+									'<div class="mdl-card__supporting-text"><p>' +
 										'This user is either offline or not currently streaming.' +
-									'</div>' +
+									'</p></div>' +
 									'<div class="mdl-card__actions mdl-card--border">' +
 										'<a class="mdl-button mdl-js-button" disabled>' +
 											'Offline' +
@@ -227,28 +229,20 @@ var main = function() {
 	}).then((array) => {
 		searchField.addEventListener("input", function(event) {
 			var cards = contentContainer.querySelectorAll('.mdl-cell');
-			var titleTexts = contentContainer.querySelectorAll('.mdl-card__title-text');
 			var searchInput = this.value.replace(/\W/g, '').toLowerCase();
 
-			for (var titleText = 0; titleText < titleTexts.length; titleText++) {
-				var el = titleTexts[titleText];
-
-				// show card if search result matches a username
-				if (titleTexts[titleText].innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0) {
-					// iterates until it finds cell node
-					while ((el = el.parentNode) && (!el.classList.contains('mdl-cell')));
-
-					if (el.classList.contains('hide')) {
-						el.classList.remove('hide');
+			for (var card = 0; card < cards.length; card++) {
+				// show card if search result matches a username or game
+				if (cards[card].querySelector('.mdl-card__title-text').innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0 ||
+				   (cards[card].querySelector('p').classList.contains('mdl-card__game-text') && cards[card].querySelector('.mdl-card__game-text').innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0)) {
+					if (cards[card].classList.contains('hide')) {
+						cards[card].classList.remove('hide');
 					}
 				}
 				// hide card, otherwise
 				else {
-					// iterates until it finds cell node
-					while ((el = el.parentNode) && (!el.classList.contains('mdl-cell')));
-
-					if (!el.classList.contains('hide')) {
-						el.className += ' hide';
+					if (!cards[card].classList.contains('hide')) {
+						cards[card].className += ' hide';
 					}
 				}
 			}

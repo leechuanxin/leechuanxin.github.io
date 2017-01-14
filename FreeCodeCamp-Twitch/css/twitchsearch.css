@@ -137,3 +137,17 @@ body {
 .mdl-status.offline {
 	background: #607D8B;
 }
+
+.mdl-card__supporting-text .mdl-card__game-text {
+	font-weight: 700;
+	font-size: 16px;
+	margin-top: 0;
+}
+
+.mdl-card__supporting-text p {
+	line-height: 18px;
+}
+
+.mdl-card__supporting-text p:last-child {
+	margin-bottom: 0;
+}
