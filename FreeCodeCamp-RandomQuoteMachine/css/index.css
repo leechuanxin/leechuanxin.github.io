@@ -14,7 +14,7 @@ blockquote {
 }
 
 blockquote p {
-	font-size: 28px;
+	font-size: 22px;
 	line-height: 1.1;
 	font-weight: 500;
 	-webkit-transition: color .4s;
@@ -43,9 +43,24 @@ blockquote footer {
 	justify-content: space-between;
 }
 
+.button-container p {
+	margin: 0;
+}
+
 @media (min-width: 540px) {
 	.button-container {
 		flex-direction: row;
 		justify-content: space-between;
+	}
+}
+
+.btn.btn-lg {
+	font-size: 14px;
+	padding: 7px 12px;
+}
+@media (min-width: 540px) {
+	.btn.btn-lg {
+		font-size: 18px;
+		padding: 10px 16px;
 	}
 }
