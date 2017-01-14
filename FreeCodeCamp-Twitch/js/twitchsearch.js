@@ -234,7 +234,7 @@ var main = function() {
 				var el = titleTexts[titleText];
 
 				// show card if search result matches a username
-				if (titleTexts[titleText].innerHTML.toLowerCase().lastIndexOf(searchInput.toLowerCase(), 0) == 0) {
+				if (titleTexts[titleText].innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0) {
 					// iterates until it finds cell node
 					while ((el = el.parentNode) && (!el.classList.contains('mdl-cell')));
 
