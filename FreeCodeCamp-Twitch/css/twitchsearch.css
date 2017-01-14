@@ -1,0 +1,139 @@
+html, body {
+	max-width: 100%;
+	overflow-x: hidden; 
+}
+
+body {
+	background: #f5f5f5;
+}
+
+.mdl-layout__header {
+	background-color: #673ab7;;
+}
+
+.mdl-layout__tab-bar {
+	background-color: #512DA8;
+}
+
+.mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
+	background: #039be5;
+}
+
+.mdl-layout__header-row {
+	padding-left: 40px;
+}
+@media screen and (max-width: 1024px) {
+	.mdl-layout__header-row {
+		padding: 0 16px;
+	}
+}
+
+.mdl-layout__header-row form {
+	margin-left: 50%;
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.mdl-textfield--expandable .material-icons {
+	color: #fff;
+}
+
+/* remove bottom border of search field before search is toggled */
+.mdl-textfield__input {
+	border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+/* adds bottom border of search field back when search has a value but is inactive */
+.mdl-textfield--expandable.is-dirty .mdl-textfield__input {
+	border-bottom: 1px solid rgba(255, 255, 255, .25);
+}
+
+.mdl-textfield--expandable .mdl-textfield__input {
+	color: #fff;
+}
+@media (min-width: 500px) {
+	.mdl-textfield--expandable .mdl-textfield__input {
+		width: 364px;
+	}
+}
+@media (min-width: 768px) {
+	.mdl-textfield--expandable .mdl-textfield__input {
+		width: 522px;
+	}
+}
+@media (min-width: 992px) {
+	.mdl-textfield--expandable .mdl-textfield__input {
+		width: 600px;
+	}
+}
+
+.mdl-textfield__label {
+	color: #fff;
+}
+
+.mdl-textfield__label:after {
+	background: #039be5;
+}
+
+.mdl-cell.hide {
+	display: none;
+}
+
+.mdl-card {
+	width: 100%;
+	min-height: 0;
+}
+
+.card-overlay {
+	display: flex;
+	background: rgba(0,0,0,0.35);
+	width: 100%;
+	height: 100%;
+	padding: 16px;
+	box-sizing: border-box;
+}
+
+.mdl-card > .mdl-card__title {
+	color: #fff;
+	height: 180px;
+	padding: 0;
+}
+
+.mdl-card__title-text {
+	font-size: 20px;
+}
+
+.mdl-card .mdl-card__actions .mdl-button {
+	margin-left: 50%;
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.mdl-card .mdl-card__actions .mdl-button.mdl-button--colored {
+	color: #039be5;
+}
+
+.mdl-card__status-wrapper {
+	position: absolute;
+	right: 16px;
+	top: 16px;
+}
+
+.mdl-status {
+	border-radius: 50%;
+	height: 32px;
+	width: 32px;
+}
+
+.mdl-status.online {
+	background: #4CAF50;
+}
+
+.mdl-status.offline {
+	background: #607D8B;
+}
