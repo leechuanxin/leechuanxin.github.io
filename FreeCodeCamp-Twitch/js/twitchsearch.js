@@ -102,43 +102,69 @@ var main = function() {
 						"shroud",
 						"flosd"
 					];
-	var dataArr = [];
-	var onlineArr = [];
-	var offlineArr = [];
-	var allArr = [];
 	var contentContainer = document.querySelector('.mdl-layout__content');
 	var onlineTab = document.getElementById('fixed-tab-1').querySelector('.mdl-grid');
 	var offlineTab = document.getElementById('fixed-tab-2').querySelector('.mdl-grid');
 	var allTab = document.getElementById('fixed-tab-3').querySelector('.mdl-grid');
 	var searchField = document.querySelector('.mdl-textfield__input');
+	var refreshButton = document.getElementById('refresh-button');
 
-	// set every username to lowercase
-	streamArr = streamArr.map(function(username) {
-		return username.toLowerCase();
-	});
+	// function for hiding and showing relevant cards/cells
+	var showHideCells = function() {
+		var cards = contentContainer.querySelectorAll('.mdl-cell');
+		var searchInput = searchField.value.replace(/[!@#\$%\^&\*\(\)\+=\{}\[\]\|\\;'"<>,.?/]/g, '').toLowerCase();
 
-	// push all promises (when resolving looped requests) to dataArr, for using Promise.all()
-	for (var a in streamArr) {
-		dataArr.push(new Promise((resolve, reject) => {
-			var request = new XMLHttpRequest();
-			request.open('GET', 'https://wind-bow.gomix.me/twitch-api/streams/' + streamArr[a], true);
-
-			request.onload = function() {
-				if (request.status >= 200 && request.status < 400) {
-					var data = JSON.parse(request.response);
-
-					// pass in entire JSON response to then()
-					resolve(data);
+		for (var card = 0; card < cards.length; card++) {
+			// show card/cell if search result matches a username or game
+			if (cards[card].querySelector('.mdl-card__title-text').innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0 ||
+			   (cards[card].querySelector('p').classList.contains('mdl-card__game-text') && cards[card].querySelector('.mdl-card__game-text').innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0)) {
+				if (cards[card].classList.contains('hide')) {
+					cards[card].classList.remove('hide');
 				}
 			}
+			// hide card/cell, otherwise
+			else {
+				if (!cards[card].classList.contains('hide')) {
+					cards[card].className += ' hide';
+				}
+			}
+		}
+	};
 
-			request.send();
-		}));
-	}
+	// function for calling api and making promise
+	var apiPromise = function(array) {
+		var dataArr = [];
 
-	Promise.all(dataArr).then((result) => {
+		for (var a in array) {
+			dataArr.push(new Promise((resolve, reject) => {
+				var request = new XMLHttpRequest();
+				request.open('GET', 'https://wind-bow.gomix.me/twitch-api/streams/' + streamArr[a], true);
+
+				request.onload = function() {
+					if (request.status >= 200 && request.status < 400) {
+						var data = JSON.parse(request.response);
+
+						// pass in entire JSON response to then()
+						resolve(data);
+					}
+				}
+
+				request.send();
+			}));
+		}
+
+		return dataArr;
+	};
+
+	// function for loading cards/cells
+	var loadCells = function(promises) {
+		// initialise necessary arrays
+		var offlineArr = [];
+		var onlineArr = [];
+		var allArr = [];
+
 		// sort results (username) in alphabetical order (ignoring cases)
-		result.sort(function(first, second) {
+		promises.sort(function(first, second) {
 			if (first["_links"]["self"].slice(37).toLowerCase() < second["_links"]["self"].slice(37).toLowerCase()) {
 				return -1;
 			}
@@ -148,14 +174,14 @@ var main = function() {
 		});
 
 		// separate sorted results into online/offline
-		for (var b in result) {
+		for (var b in promises) {
 			// offline
-			if (result[b]["stream"] == null) {
-				offlineArr.push(result[b]);
+			if (promises[b]["stream"] == null) {
+				offlineArr.push(promises[b]);
 			}
 			// online
 			else {
-				onlineArr.push(result[b]);
+				onlineArr.push(promises[b]);
 			}
 		}
 
@@ -223,30 +249,33 @@ var main = function() {
 			allTab.appendChild(allCard);
 			offlineTab.appendChild(offlineCard);
 		}
+	};
 
-		return allArr;
+	// set every username to lowercase
+	streamArr = streamArr.map(function(username) {
+		return username.toLowerCase();
+	});
 
-	}).then((array) => {
-		searchField.addEventListener("input", function(event) {
-			var cards = contentContainer.querySelectorAll('.mdl-cell');
-			var searchInput = this.value.replace(/\W/g, '').toLowerCase();
+	// load api and cards/cells
+	Promise.all(apiPromise(streamArr)).then((result) => loadCells(result));
 
-			for (var card = 0; card < cards.length; card++) {
-				// show card if search result matches a username or game
-				if (cards[card].querySelector('.mdl-card__title-text').innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0 ||
-				   (cards[card].querySelector('p').classList.contains('mdl-card__game-text') && cards[card].querySelector('.mdl-card__game-text').innerHTML.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0)) {
-					if (cards[card].classList.contains('hide')) {
-						cards[card].classList.remove('hide');
-					}
-				}
-				// hide card, otherwise
-				else {
-					if (!cards[card].classList.contains('hide')) {
-						cards[card].className += ' hide';
-					}
-				}
-			}
-		});
+	searchField.addEventListener("input", function() {
+		showHideCells();
+	});
+
+	refreshButton.addEventListener("click", (evt) => {
+		var allCells = contentContainer.querySelectorAll('.mdl-cell');
+		var currentInput = searchField.value.replace(/\W/g, '').toLowerCase();
+		
+		// delete all cards/cells
+		for (var cell = 0; cell < allCells.length; cell++) {
+			allCells[cell].parentNode.removeChild(allCells[cell]);
+		}
+
+		// load api and cards/cells, then hide/show relevant ones
+		Promise.all(apiPromise(streamArr)).then((result) => loadCells(result)).then(function() {
+			showHideCells();
+		});		
 	});
 };
 

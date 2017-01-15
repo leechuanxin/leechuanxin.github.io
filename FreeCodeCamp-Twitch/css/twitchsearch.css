@@ -20,21 +20,7 @@ body {
 }
 
 .mdl-layout__header-row {
-	padding-left: 40px;
-}
-@media screen and (max-width: 1024px) {
-	.mdl-layout__header-row {
-		padding: 0 16px;
-	}
-}
-
-.mdl-layout__header-row form {
-	margin-left: 50%;
-	-ms-transform: translateX(-50%);
-	-o-transform: translateX(-50%);
-	-moz-transform: translateX(-50%);
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
+	padding: 0 16px;
 }
 
 .mdl-textfield--expandable .material-icons {
@@ -52,21 +38,11 @@ body {
 
 .mdl-textfield--expandable .mdl-textfield__input {
 	color: #fff;
+	width: calc(100vw - 120px);
 }
-@media (min-width: 500px) {
-	.mdl-textfield--expandable .mdl-textfield__input {
-		width: 364px;
-	}
-}
-@media (min-width: 768px) {
-	.mdl-textfield--expandable .mdl-textfield__input {
-		width: 522px;
-	}
-}
-@media (min-width: 992px) {
-	.mdl-textfield--expandable .mdl-textfield__input {
-		width: 600px;
-	}
+
+.mdl-textfield.is-focused .mdl-textfield__expandable-holder, .mdl-textfield.is-dirty .mdl-textfield__expandable-holder {
+    max-width: none; 
 }
 
 .mdl-textfield__label {

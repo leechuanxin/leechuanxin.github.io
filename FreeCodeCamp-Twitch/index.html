@@ -26,18 +26,24 @@
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
 	<header class="mdl-layout__header">
 		<div class="mdl-layout__header-row">
-    		<!-- Search field -->
-      		<form action="#">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-					<label class="mdl-button mdl-js-button mdl-button--icon" for="search-expandable">
-						<i class="material-icons">search</i>
-					</label>
-					<div class="mdl-textfield__expandable-holder">
-						<input class="mdl-textfield__input" type="text" id="search-expandable">
-						<label class="mdl-textfield__label" for="search-expandable">Search Twitch</label>
-					</div>
-				</div>
-			</form>
+			<!-- Search field -->
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+      			<label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+              		<i class="material-icons">search</i>
+          		</label>
+          		<div class="mdl-textfield__expandable-holder">
+          			<input class="mdl-textfield__input" type="text" id="search">
+          			<label class="mdl-textfield__label" for="search">Search a streamer or game...</label>
+  				</div>
+			</div>
+			<div class="mdl-layout-spacer"></div>
+      		<!-- Right aligned menu below button -->
+			<button id="menu-button" class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">more_vert</i>
+			</button>
+			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-button">
+				<li class="mdl-menu__item" id="refresh-button">Refresh</li>
+			</ul>
 		</div>
     	<!-- Tabs -->
 		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
@@ -60,7 +66,7 @@
 			</div>
 		</section>
 		<section class="mdl-layout__tab-panel" id="fixed-tab-3">
-			<div class="page-content">\
+			<div class="page-content">
 				<div class="mdl-grid">
 				</div>
 			</div>
