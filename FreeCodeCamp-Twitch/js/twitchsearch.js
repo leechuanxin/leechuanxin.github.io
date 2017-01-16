@@ -423,7 +423,7 @@ var main = function() {
     	timerValue = refreshSlider.value;    	
     });
 
-    refreshSlider.addEventListener('click', function() {
+    refreshSlider.addEventListener('input', function() {
     	timerValueDisplay.innerHTML = refreshSlider.value + "s";
     });
 };
