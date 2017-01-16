@@ -53,6 +53,10 @@ body {
 	background: #039be5;
 }
 
+.mdl-grid {
+	padding: 8px 8px 48px 8px;
+}
+
 .mdl-cell.hide {
 	display: none;
 }
@@ -207,4 +211,26 @@ body {
 
 .mdl-dialog__actions .mdl-button {
 	color: #039be5;
+}
+
+.mdl-snackbar {
+	-webkit-transition: bottom ease-in-out 0.3s;
+    -moz-transition: bottom ease-in-out 0.3s;
+    -o-transition: bottom ease-in-out 0.3s;
+    transition: bottom ease-in-out 0.3s;
+}
+
+.mdl-snackbar.hide {
+	bottom: -48px;
+}
+
+.mdl-snackbar__text {
+	width: 100%;
+	text-align: center;
+	float: none;
+	padding: 14px;
+}
+
+.mdl-snackbar__action {
+	display: none;
 }

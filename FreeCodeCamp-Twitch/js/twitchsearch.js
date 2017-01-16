@@ -111,10 +111,13 @@ var main = function() {
 	var dialog = document.getElementById('dialog');
 	var refreshSlider = document.getElementById('refreshSlider');
 	var timerValueDisplay = document.querySelector('.timer-value');
+	var autoRefreshSnackbar = document.getElementById('autoRefreshSnackbar');
 	var autoRefreshOn = 0;
 	var timerValue = 15;
 	// to be used as function for auto-refresh
 	var executeAutoRefresh = 0;
+	// to be used as function for auto-refresh countdown
+	var executeAutoRefreshCountdown = 0;
 
 	// function for hiding and showing relevant cards/cells
 	var showHideCells = function() {
@@ -275,7 +278,7 @@ var main = function() {
 
 	refreshButton.addEventListener("click", () => {
 		var allCells = contentContainer.querySelectorAll('.mdl-cell');
-		var currentInput = searchField.value.replace(/\W/g, '').toLowerCase();
+		var currentInput = searchField.value.replace(/[!@#\$%\^&\*\(\)\+=\{}\[\]\|\\;'"<>,.?/]/g, '').toLowerCase();
 		
 		// delete all cards/cells
 		for (var cell = 0; cell < allCells.length; cell++) {
@@ -353,24 +356,42 @@ var main = function() {
 
     document.getElementById('dialog-okay').addEventListener('click', function() {
     	var autoRefreshToggle = document.querySelector('.mdl-switch');
+
     	dialog.close();
 
-    	// save state of auto-refresh toggle
-    	if (autoRefreshToggle.classList.contains('is-checked')) {
-    		autoRefreshOn = 1;
-    	}
-    	else {
-    		autoRefreshOn = 0;
-    	}
+    	// start new auto-refresh if there is a new timer value OR 
+		// if autoRefresh is not previously switched on
+		if ((timerValue != refreshSlider.value) || (autoRefreshToggle.classList.contains('is-checked') && autoRefreshOn == 0)) {
+			// initialise countdown timer text
+			var countdown = refreshSlider.value;
 
-    	// save state of auto-refresh timer
-    	timerValue = refreshSlider.value;
+			// clear all previous intervals
+			clearInterval(executeAutoRefresh);
+    		clearInterval(executeAutoRefreshCountdown);
 
-    	// execute auto-refresh if auto-refresh toggle is 1
-    	if (autoRefreshOn == 1) {
-    		executeAutoRefresh = setInterval(function() {
+			if (autoRefreshSnackbar.classList.contains('hide')) {
+				autoRefreshSnackbar.classList.remove('hide');
+			}
+
+			// add countdown timer text
+			autoRefreshSnackbar.querySelector('.mdl-snackbar__text').innerHTML = 'Auto-refreshing in ' + countdown + ' seconds...';
+
+			// execute countdown with decrements of countdown every second
+			executeAutoRefreshCountdown = setInterval(function() {
+				countdown -= 1;
+
+				// resets to original countdown timer when hitting 0
+				if (countdown == 0) {
+					countdown = refreshSlider.value;		
+				}
+
+				autoRefreshSnackbar.querySelector('.mdl-snackbar__text').innerHTML = 'Auto-refreshing in ' + countdown + ((countdown == 1) ? ' second...' : ' seconds...');
+			}, 1000);
+
+			// execute auto refresh
+			executeAutoRefresh = setInterval(function() {
     			var allCells = contentContainer.querySelectorAll('.mdl-cell');
-				var currentInput = searchField.value.replace(/\W/g, '').toLowerCase();
+				var currentInput = searchField.value.replace(/[!@#\$%\^&\*\(\)\+=\{}\[\]\|\\;'"<>,.?/]/g, '').toLowerCase();
 		
 				// delete all cards/cells
 				for (var cell = 0; cell < allCells.length; cell++) {
@@ -380,13 +401,26 @@ var main = function() {
 				Promise.all(apiPromise(streamArr)).then((result) => loadCells(result)).then(function() {
 					showHideCells();
 				});
-			}, timerValue * 1000);
-	    }
+			}, refreshSlider.value * 1000);
+		}
 
-    	// stop auto-refresh if auto-refresh toggle is 0
-    	if (autoRefreshOn == 0) {
+		// stop auto-refresh if auto-refresh toggle is no longer checked
+    	if (!autoRefreshToggle.classList.contains('is-checked')) {
+    		autoRefreshSnackbar.className += ' hide';
     		clearInterval(executeAutoRefresh);
+    		clearInterval(executeAutoRefreshCountdown);
     	}
+
+    	// save new state of auto-refresh toggle
+    	if (autoRefreshToggle.classList.contains('is-checked')) {
+    		autoRefreshOn = 1;
+    	}
+    	else {
+    		autoRefreshOn = 0;
+    	}
+
+    	// save value of new auto-refresh timer
+    	timerValue = refreshSlider.value;    	
     });
 
     refreshSlider.addEventListener('click', function() {
