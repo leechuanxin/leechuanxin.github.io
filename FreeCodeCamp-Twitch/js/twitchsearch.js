@@ -424,7 +424,7 @@ var main = function() {
     });
 
     refreshSlider.addEventListener('click', function() {
-    	timerValueDisplay.innerHTML = this.value + "s";
+    	timerValueDisplay.innerHTML = refreshSlider.value + "s";
     });
 };
 
