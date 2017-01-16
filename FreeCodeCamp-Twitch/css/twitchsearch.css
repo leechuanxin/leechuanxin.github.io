@@ -127,3 +127,84 @@ body {
 .mdl-card__supporting-text p:last-child {
 	margin-bottom: 0;
 }
+
+.mdl-dialog__title {
+	font-size: 2rem;
+	margin-bottom: 10px;
+}
+
+.mdl-dialog__content > p {
+	margin-bottom: 20px;
+}
+
+.mdl-dialog__content .switch-wrapper {
+	display: flex;
+}
+
+.mdl-dialog__content .mdl-switch__label {
+	position: static;
+	cursor: default;
+	flex-grow: 1;
+}
+
+.mdl-dialog__content .mdl-switch {
+	position: relative;
+	width: auto;
+	flex-grow: 1;
+}
+
+.mdl-dialog__content .mdl-switch__track {
+	position: absolute;
+	width: 100%;
+}
+
+.mdl-dialog__content .mdl-switch.is-checked .mdl-switch__track {
+	background: #9575CD;
+}
+
+.mdl-dialog__content .mdl-switch__thumb {
+	position: absolute;
+}
+
+.mdl-dialog__content .mdl-switch.is-checked .mdl-switch__thumb {
+	left: 63px;
+	background-color: #512DA8;
+}
+
+.mdl-dialog__content .mdl-switch.is-checked .mdl-switch__ripple-container {
+	left: 63px;
+}
+
+.mdl-dialog__content .mdl-switch__ripple-container .mdl-ripple {
+	background: #673AB7;
+}
+
+.mdl-dialog__content .timer-wrapper {
+	display: flex;
+	font-size: 16px;
+}
+
+.mdl-dialog__content .timer-wrapper .mdl-slider__container {
+	margin-top: 3px;
+	flex-grow: 1;
+}
+
+.mdl-dialog__content .timer-wrapper .timer-label {
+	flex-grow: 1;
+}
+
+.mdl-dialog__content .timer-wrapper .mdl-slider.is-upgraded {
+	color: #512DA8;
+}
+
+.mdl-dialog__content .timer-wrapper .mdl-slider__background-lower {
+	background: #512DA8;
+}
+
+.mdl-dialog__content .timer-wrapper .timer-value {
+	flex-grow: 1;
+}
+
+.mdl-dialog__actions .mdl-button {
+	color: #039be5;
+}

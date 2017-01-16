@@ -108,6 +108,13 @@ var main = function() {
 	var allTab = document.getElementById('fixed-tab-3').querySelector('.mdl-grid');
 	var searchField = document.querySelector('.mdl-textfield__input');
 	var refreshButton = document.getElementById('refresh-button');
+	var dialog = document.getElementById('dialog');
+	var refreshSlider = document.getElementById('refreshSlider');
+	var timerValueDisplay = document.querySelector('.timer-value');
+	var autoRefreshOn = 0;
+	var timerValue = 15;
+	// to be used as function for auto-refresh
+	var executeAutoRefresh = 0;
 
 	// function for hiding and showing relevant cards/cells
 	var showHideCells = function() {
@@ -251,6 +258,9 @@ var main = function() {
 		}
 	};
 
+	// show auto-refresh timer value
+	timerValueDisplay.innerHTML = timerValue + "s"
+
 	// set every username to lowercase
 	streamArr = streamArr.map(function(username) {
 		return username.toLowerCase();
@@ -263,7 +273,7 @@ var main = function() {
 		showHideCells();
 	});
 
-	refreshButton.addEventListener("click", (evt) => {
+	refreshButton.addEventListener("click", () => {
 		var allCells = contentContainer.querySelectorAll('.mdl-cell');
 		var currentInput = searchField.value.replace(/\W/g, '').toLowerCase();
 		
@@ -277,6 +287,111 @@ var main = function() {
 			showHideCells();
 		});		
 	});
+
+	// for auto-refresh dialog
+	if (!dialog.showModal) {
+    	dialogPolyfill.registerDialog(dialog);
+    }
+
+    document.getElementById('autorefresh-button').addEventListener('click', function(evt) {
+    	dialog.showModal();
+
+    	// remove focus animation that appears when dialog is launched
+    	if (document.querySelector('.mdl-switch').classList.contains('is-focused')) {
+    		document.querySelector('.mdl-switch').classList.remove('is-focused');
+    	}
+    });
+
+    document.getElementById('dialog-cancel').addEventListener('click', function() {
+    	var autoRefreshToggle = document.querySelector('.mdl-switch');
+
+    	dialog.close();
+
+    	// determine state of auto-refresh toggle when closed
+    	if (autoRefreshOn == 0 && autoRefreshToggle.classList.contains('is-checked')) {
+    		autoRefreshToggle.classList.remove('is-checked');
+    	}
+
+    	// determine state of auto-refresh timer when closed
+    	if (timerValue != refreshSlider.value) {
+    		refreshSlider.value = timerValue;
+    		timerValueDisplay.innerHTML = refreshSlider.value + "s";
+
+    		// changing colors of markers on slider
+    		switch(parseInt(refreshSlider.value)) {
+    			case 15:
+    				if (!refreshSlider.classList.contains('is-lowest-value')) {
+    					refreshSlider.className += ' is-lowest-value';
+    				}
+    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '0 1 0%';
+    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '1 1 0%';
+    				break;
+    			case 30:
+    				if (refreshSlider.classList.contains('is-lowest-value')) {
+    					refreshSlider.classList.remove('is-lowest-value');
+    				}
+    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '0.333333 1 0%';
+    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '0.666667 1 0%';
+    				break;
+    			case 45:
+    				if (refreshSlider.classList.contains('is-lowest-value')) {
+    					refreshSlider.classList.remove('is-lowest-value');
+    				}
+    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '0.666667 1 0%';
+    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '0.333333 1 0%';
+    				break;
+    			case 60:
+    				if (refreshSlider.classList.contains('is-lowest-value')) {
+    					refreshSlider.classList.remove('is-lowest-value');
+    				}
+    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '1 1 0%';
+    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '0 1 0%';
+    				break;
+    		}
+    	}
+    });
+
+    document.getElementById('dialog-okay').addEventListener('click', function() {
+    	var autoRefreshToggle = document.querySelector('.mdl-switch');
+    	dialog.close();
+
+    	// save state of auto-refresh toggle
+    	if (autoRefreshToggle.classList.contains('is-checked')) {
+    		autoRefreshOn = 1;
+    	}
+    	else {
+    		autoRefreshOn = 0;
+    	}
+
+    	// save state of auto-refresh timer
+    	timerValue = refreshSlider.value;
+
+    	// execute auto-refresh if auto-refresh toggle is 1
+    	if (autoRefreshOn == 1) {
+    		executeAutoRefresh = setInterval(function() {
+    			var allCells = contentContainer.querySelectorAll('.mdl-cell');
+				var currentInput = searchField.value.replace(/\W/g, '').toLowerCase();
+		
+				// delete all cards/cells
+				for (var cell = 0; cell < allCells.length; cell++) {
+					allCells[cell].parentNode.removeChild(allCells[cell]);
+				}
+    			
+				Promise.all(apiPromise(streamArr)).then((result) => loadCells(result)).then(function() {
+					showHideCells();
+				});
+			}, timerValue * 1000);
+	    }
+
+    	// stop auto-refresh if auto-refresh toggle is 0
+    	if (autoRefreshOn == 0) {
+    		clearInterval(executeAutoRefresh);
+    	}
+    });
+
+    refreshSlider.addEventListener('click', function() {
+    	timerValueDisplay.innerHTML = this.value + "s";
+    });
 };
 
 main();

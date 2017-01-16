@@ -43,6 +43,7 @@
 			</button>
 			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-button">
 				<li class="mdl-menu__item" id="refresh-button">Refresh</li>
+				<li class="mdl-menu__item" id="autorefresh-button">Set Auto-Refresh...</li>
 			</ul>
 		</div>
     	<!-- Tabs -->
@@ -56,6 +57,27 @@
 		<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
 			<div class="page-content">
 				<div class="mdl-grid">
+					<dialog class="mdl-dialog" id="dialog">
+	    				<h5 class="mdl-dialog__title">Set Auto-Refresh</h5>
+	    				<div class="mdl-dialog__content">
+		    				<p class="switch-wrapper">
+		    					<span class="mdl-switch__label">Auto-Refresh</span>
+			    				<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="refreshToggle">
+			    					<input type="checkbox" id="refreshToggle" class="mdl-switch__input">
+		    					</label>
+	    					</p>
+		      				<p class="timer-wrapper">
+		      					<span class="timer-label">Timer</span>
+								<input class="mdl-slider mdl-js-slider" type="range" id="refreshSlider" min="15" 
+								max="60" value="15" step="15">
+								<span class="timer-value"></span>
+							</p>
+	    				</div>
+	    				<div class="mdl-dialog__actions">
+	      					<button type="button" class="mdl-button" id="dialog-okay">Okay</button>
+	      					<button type="button" class="mdl-button" id="dialog-cancel">Cancel</button>
+	    				</div>
+	  				</dialog>
 				</div>
 			</div>
 		</section>
