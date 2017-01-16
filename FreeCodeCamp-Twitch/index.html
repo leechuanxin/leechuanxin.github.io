@@ -54,34 +54,34 @@
 		</div>
 	</header>
 	<main class="mdl-layout__content">
+		<dialog class="mdl-dialog" id="dialog">
+			<h5 class="mdl-dialog__title">Set Auto-Refresh</h5>
+			<div class="mdl-dialog__content">
+				<p class="switch-wrapper">
+					<span class="mdl-switch__label">Auto-Refresh</span>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="refreshToggle">
+						<input type="checkbox" id="refreshToggle" class="mdl-switch__input">
+					</label>
+				</p>
+					<p class="timer-wrapper">
+						<span class="timer-label">Timer</span>
+					<input class="mdl-slider mdl-js-slider" type="range" id="refreshSlider" min="15" 
+					max="60" value="15" step="15">
+					<span class="timer-value"></span>
+				</p>
+			</div>
+			<div class="mdl-dialog__actions">
+					<button type="button" class="mdl-button" id="dialog-okay">Okay</button>
+					<button type="button" class="mdl-button" id="dialog-cancel">Cancel</button>
+			</div>
+		</dialog>
+		<div class="mdl-js-snackbar mdl-snackbar mdl-snackbar--active hide" id="autoRefreshSnackbar">
+			<div class="mdl-snackbar__text"></div>
+			<button class="mdl-snackbar__action" type="button"></button>
+		</div>
 		<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
 			<div class="page-content">
 				<div class="mdl-grid">
-					<dialog class="mdl-dialog" id="dialog">
-	    				<h5 class="mdl-dialog__title">Set Auto-Refresh</h5>
-	    				<div class="mdl-dialog__content">
-		    				<p class="switch-wrapper">
-		    					<span class="mdl-switch__label">Auto-Refresh</span>
-			    				<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="refreshToggle">
-			    					<input type="checkbox" id="refreshToggle" class="mdl-switch__input">
-		    					</label>
-	    					</p>
-		      				<p class="timer-wrapper">
-		      					<span class="timer-label">Timer</span>
-								<input class="mdl-slider mdl-js-slider" type="range" id="refreshSlider" min="15" 
-								max="60" value="15" step="15">
-								<span class="timer-value"></span>
-							</p>
-	    				</div>
-	    				<div class="mdl-dialog__actions">
-	      					<button type="button" class="mdl-button" id="dialog-okay">Okay</button>
-	      					<button type="button" class="mdl-button" id="dialog-cancel">Cancel</button>
-	    				</div>
-	  				</dialog>
-	  				<div class="mdl-js-snackbar mdl-snackbar mdl-snackbar--active hide" id="autoRefreshSnackbar">
-	  					<div class="mdl-snackbar__text"></div>
-	  					<button class="mdl-snackbar__action" type="button"></button>
-  					</div>
 				</div>
 			</div>
 		</section>
