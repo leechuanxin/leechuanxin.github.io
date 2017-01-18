@@ -111,8 +111,6 @@ var main = function() {
 	var dialogOverlay = document.querySelector('.new-dialog__overlay');
 	var dialog = document.getElementById('dialog');
 	var refreshSlider = document.getElementById('refreshSlider');
-	var sliderLower = document.querySelector('.mdl-slider__background-lower');
-	var sliderUpper = document.querySelector('.mdl-slider__background-upper');
 	var timerValueDisplay = document.querySelector('.timer-value');
 	var autoRefreshSnackbar = document.getElementById('autoRefreshSnackbar');
 	var autoRefreshOn = 0;
@@ -300,20 +298,30 @@ var main = function() {
 
 	// for auto-refresh dialog
 	document.getElementById('autorefresh-button').addEventListener('click', function() {
+		var autoRefreshToggle = document.querySelector('.mdl-switch');
 		// create overlay
 		var overlay = document.createElement('div');
 		overlay.className += 'new-dialog__overlay';
 		document.querySelector('body').insertBefore(overlay, parent.firstChild);
 
+		// IE bug - autoRefreshToggle may be on when it is not supposed to be when dialog is first loaded
+		if (autoRefreshOn == 0 && autoRefreshToggle.classList.contains('is-checked')) {
+    		autoRefreshToggle.classList.remove('is-checked');
+    	}
+
 		// show dialog
 		if (!dialog.classList.contains('show')) {
 			dialog.className += ' show';
 		}
+		
 	});
 
     document.getElementById('dialog-cancel').addEventListener('click', function() {
     	var autoRefreshToggle = document.querySelector('.mdl-switch');
     	var overlay = document.querySelector('.new-dialog__overlay');
+    	var isIE = window.navigator.userAgent.indexOf("MSIE ");
+    	var sliderLower = document.querySelector('.mdl-slider__background-lower');
+		var sliderUpper = document.querySelector('.mdl-slider__background-upper');
 
     	// close dialog
     	if (dialog.classList.contains('show')) {
@@ -323,8 +331,11 @@ var main = function() {
 		// clear overlay
 		overlay.parentNode.removeChild(overlay);
 
-    	// determine state of auto-refresh toggle when closed
-    	if (autoRefreshOn == 0 && autoRefreshToggle.classList.contains('is-checked')) {
+		// determine state of auto-refresh toggle when dialog is opened
+    	if (autoRefreshOn == 1 && !autoRefreshToggle.classList.contains('is-checked')) {
+    		autoRefreshToggle.className += (' is-checked');
+    	}
+    	else if (autoRefreshOn == 0 && autoRefreshToggle.classList.contains('is-checked')) {
     		autoRefreshToggle.classList.remove('is-checked');
     	}
 
@@ -333,37 +344,39 @@ var main = function() {
     		refreshSlider.value = timerValue;
     		timerValueDisplay.innerHTML = refreshSlider.value + "s";
 
-    		// changing colors of markers on slider
-    		switch(parseInt(refreshSlider.value)) {
-    			case 15:
-    				if (!refreshSlider.classList.contains('is-lowest-value')) {
-    					refreshSlider.className += ' is-lowest-value';
-    				}
-    				sliderLower.style.flex = '0 1 0%';
-    				sliderUpper.style.flex = '1 1 0%';
-    				break;
-    			case 30:
-    				if (refreshSlider.classList.contains('is-lowest-value')) {
-    					refreshSlider.classList.remove('is-lowest-value');
-    				}
-    				sliderLower.style.flex = '0.333333 1 0%';
-    				sliderUpper.style.flex = '0.666667 1 0%';
-    				break;
-    			case 45:
-    				if (refreshSlider.classList.contains('is-lowest-value')) {
-    					refreshSlider.classList.remove('is-lowest-value');
-    				}
-    				sliderLower.style.flex = '0.666667 1 0%';
-    				sliderUpper.style.flex = '0.333333 1 0%';
-    				break;
-    			case 60:
-    				if (refreshSlider.classList.contains('is-lowest-value')) {
-    					refreshSlider.classList.remove('is-lowest-value');
-    				}
-    				sliderLower.style.flex = '1 1 0%';
-    				sliderUpper.style.flex = '0 1 0%';
-    				break;
-    		}
+    		// changing colors of markers on slider for non-ie browsers
+    		if (!(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))) {
+	    		switch(parseInt(refreshSlider.value)) {
+	    			case 15:
+	    				if (!refreshSlider.classList.contains('is-lowest-value')) {
+	    					refreshSlider.className += ' is-lowest-value';
+	    				}
+	    				sliderLower.style.flex = '0 1 0%';
+	    				sliderUpper.style.flex = '1 1 0%';
+	    				break;
+	    			case 30:
+	    				if (refreshSlider.classList.contains('is-lowest-value')) {
+	    					refreshSlider.classList.remove('is-lowest-value');
+	    				}
+	    				sliderLower.style.flex = '0.333333 1 0%';
+	    				sliderUpper.style.flex = '0.666667 1 0%';
+	    				break;
+	    			case 45:
+	    				if (refreshSlider.classList.contains('is-lowest-value')) {
+	    					refreshSlider.classList.remove('is-lowest-value');
+	    				}
+	    				sliderLower.style.flex = '0.666667 1 0%';
+	    				sliderUpper.style.flex = '0.333333 1 0%';
+	    				break;
+	    			case 60:
+	    				if (refreshSlider.classList.contains('is-lowest-value')) {
+	    					refreshSlider.classList.remove('is-lowest-value');
+	    				}
+	    				sliderLower.style.flex = '1 1 0%';
+	    				sliderUpper.style.flex = '0 1 0%';
+	    				break;
+	    		}
+	    	}
     	}
     });
 
