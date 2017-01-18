@@ -8,7 +8,7 @@ body {
 }
 
 .mdl-layout__header {
-	background-color: #673ab7;;
+	background-color: #673ab7;
 }
 
 .mdl-layout__tab-bar {
@@ -132,81 +132,134 @@ body {
 	margin-bottom: 0;
 }
 
-.mdl-dialog__title {
-	font-size: 2rem;
-	margin-bottom: 10px;
+.new-dialog__overlay {
+	position: fixed;
+	top: -100px;
+	left: -100px;
+	right: -100px;
+	bottom: -100px;
+	background: rgba(0, 0, 0, 0.25);
+	z-index: 3;
 }
 
-.mdl-dialog__content > p {
+.new-dialog {
+	position: fixed;
+	background: #fff;
+	display: none;
+	width: 280px;
+	left: 50%;
+	top: 50%;
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	padding: 14px;
+	box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+	z-index: 4;
+}
+
+.new-dialog.show {
+	display: block;
+}
+
+.new-dialog__title {
+	font-size: 2rem;
+	margin: 0 0 10px 0;
+	padding: 24px 24px 0;
+}
+
+.new-dialog__content {
+	padding: 20px 24px 24px;
+	color: rgba(0, 0, 0, 0.54);
+}
+
+.new-dialog__content > div {
 	margin-bottom: 20px;
 }
 
-.mdl-dialog__content .switch-wrapper {
-	display: flex;
-}
-
-.mdl-dialog__content .mdl-switch__label {
-	position: static;
-	cursor: default;
-	flex-grow: 1;
-}
-
-.mdl-dialog__content .mdl-switch {
+.new-label {
 	position: relative;
-	width: auto;
-	flex-grow: 1;
+	font-size: 16px;
+	line-height: 24px;
+	margin: 0;
+	float: left;
+	width: 67%;
 }
 
-.mdl-dialog__content .mdl-switch__track {
+.new-label.switch {
+	width: 67%;
+}
+
+.switch-wrapper .mdl-switch {
+	position: relative;
+	width: 33%;
+}
+
+.switch-wrapper .mdl-switch__track {
 	position: absolute;
 	width: 100%;
 }
 
-.mdl-dialog__content .mdl-switch.is-checked .mdl-switch__track {
+.switch-wrapper .mdl-switch.is-checked .mdl-switch__track {
 	background: #9575CD;
 }
 
-.mdl-dialog__content .mdl-switch__thumb {
+.switch-wrapper .mdl-switch__thumb {
 	position: absolute;
 }
 
-.mdl-dialog__content .mdl-switch.is-checked .mdl-switch__thumb {
+.switch-wrapper .mdl-switch.is-checked .mdl-switch__thumb {
 	left: 63px;
 	background-color: #512DA8;
 }
 
-.mdl-dialog__content .mdl-switch.is-checked .mdl-switch__ripple-container {
+.switch-wrapper .mdl-switch.is-checked .mdl-switch__ripple-container {
 	left: 63px;
 }
 
-.mdl-dialog__content .mdl-switch__ripple-container .mdl-ripple {
+.switch-wrapper .mdl-switch__ripple-container .mdl-ripple {
 	background: #673AB7;
 }
 
-.mdl-dialog__content .timer-wrapper {
-	display: flex;
-	font-size: 16px;
+.new-label.timer {
+	width: 25%;
 }
 
-.mdl-dialog__content .timer-wrapper .mdl-slider__container {
-	margin-top: 3px;
-	flex-grow: 1;
+.timer-wrapper .mdl-slider__container, .timer-wrapper .mdl-slider__ie-container {
+	position: relative;
+	display: block;
+	float: left;
+	width: 50%;
 }
 
-.mdl-dialog__content .timer-wrapper .timer-label {
-	flex-grow: 1;
+.timer-wrapper .mdl-slider {
+	display: block;
+	margin: 0;
+	width: 100%;
+	margin-top: 8px;
 }
 
-.mdl-dialog__content .timer-wrapper .mdl-slider.is-upgraded {
+.timer-wrapper .mdl-slider.is-upgraded {
 	color: #512DA8;
 }
 
-.mdl-dialog__content .timer-wrapper .mdl-slider__background-lower {
+.timer-wrapper .mdl-slider__background-flex {
+	margin-left: 5px;
+	width: calc(100% - 15px);
+	margin-right: 0;
+}
+
+.timer-wrapper .mdl-slider__background-lower {
 	background: #512DA8;
 }
 
-.mdl-dialog__content .timer-wrapper .timer-value {
-	flex-grow: 1;
+.timer-wrapper .timer-value {
+	position: relative;
+	float: left;
+	width: 25%;
+	font-size: 16px;
+	text-align: right;
 }
 
 .mdl-dialog__actions .mdl-button {
@@ -225,10 +278,17 @@ body {
 }
 
 .mdl-snackbar__text {
-	width: 100%;
-	text-align: center;
+	position: relative;
+	left: 50%;
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
 	float: none;
 	padding: 14px;
+	margin: 0;
+	line-height: 14px;
 }
 
 .mdl-snackbar__action {

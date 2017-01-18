@@ -16,11 +16,37 @@
 
 	<link rel="stylesheet" href="css/twitchsearch.css">
 
+	<!-- polyfill for js promise -->
+	<script src="https://www.promisejs.org/polyfills/promise-7.0.4.min.js"></script>
+
 	<script src="js/material.min.js"></script>
 
 </head>
 
 <body>
+
+<!-- dialog -->
+<div class="new-dialog" id="dialog">
+	<h5 class="new-dialog__title">Set Auto-Refresh</h5>
+	<div class="new-dialog__content">
+		<div class="switch-wrapper">
+			<p class="new-label switch">Auto-Refresh</p>
+			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="refreshToggle">
+				<input type="checkbox" id="refreshToggle" class="mdl-switch__input">
+			</label>
+		</div>
+		<div class="timer-wrapper">
+			<p class="new-label timer">Timer</p>
+			<input class="mdl-slider mdl-js-slider" type="range" id="refreshSlider" min="15" 
+			max="60" value="15" step="15">
+			<p class="timer-value"></p>
+		</div>
+	</div>
+	<div class="mdl-dialog__actions">
+		<button type="button" class="mdl-button" id="dialog-okay">Okay</button>
+		<button type="button" class="mdl-button" id="dialog-cancel">Cancel</button>
+	</div>
+</div>
 
 <!-- Simple header with fixed tabs. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
@@ -54,29 +80,8 @@
 		</div>
 	</header>
 	<main class="mdl-layout__content">
-		<dialog class="mdl-dialog" id="dialog">
-			<h5 class="mdl-dialog__title">Set Auto-Refresh</h5>
-			<div class="mdl-dialog__content">
-				<p class="switch-wrapper">
-					<span class="mdl-switch__label">Auto-Refresh</span>
-					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="refreshToggle">
-						<input type="checkbox" id="refreshToggle" class="mdl-switch__input">
-					</label>
-				</p>
-					<p class="timer-wrapper">
-						<span class="timer-label">Timer</span>
-					<input class="mdl-slider mdl-js-slider" type="range" id="refreshSlider" min="15" 
-					max="60" value="15" step="15">
-					<span class="timer-value"></span>
-				</p>
-			</div>
-			<div class="mdl-dialog__actions">
-					<button type="button" class="mdl-button" id="dialog-okay">Okay</button>
-					<button type="button" class="mdl-button" id="dialog-cancel">Cancel</button>
-			</div>
-		</dialog>
 		<div class="mdl-js-snackbar mdl-snackbar mdl-snackbar--active hide" id="autoRefreshSnackbar">
-			<div class="mdl-snackbar__text"></div>
+			<p class="mdl-snackbar__text"></p>
 			<button class="mdl-snackbar__action" type="button"></button>
 		</div>
 		<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">

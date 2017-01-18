@@ -108,8 +108,11 @@ var main = function() {
 	var allTab = document.getElementById('fixed-tab-3').querySelector('.mdl-grid');
 	var searchField = document.querySelector('.mdl-textfield__input');
 	var refreshButton = document.getElementById('refresh-button');
+	var dialogOverlay = document.querySelector('.new-dialog__overlay');
 	var dialog = document.getElementById('dialog');
 	var refreshSlider = document.getElementById('refreshSlider');
+	var sliderLower = document.querySelector('.mdl-slider__background-lower');
+	var sliderUpper = document.querySelector('.mdl-slider__background-upper');
 	var timerValueDisplay = document.querySelector('.timer-value');
 	var autoRefreshSnackbar = document.getElementById('autoRefreshSnackbar');
 	var autoRefreshOn = 0;
@@ -146,7 +149,7 @@ var main = function() {
 		var dataArr = [];
 
 		for (var a in array) {
-			dataArr.push(new Promise((resolve, reject) => {
+			dataArr.push(new Promise(function(resolve, reject) {
 				var request = new XMLHttpRequest();
 				request.open('GET', 'https://wind-bow.gomix.me/twitch-api/streams/' + streamArr[a], true);
 
@@ -270,13 +273,15 @@ var main = function() {
 	});
 
 	// load api and cards/cells
-	Promise.all(apiPromise(streamArr)).then((result) => loadCells(result));
+	Promise.all(apiPromise(streamArr)).then(function(result) {
+		loadCells(result);
+	});
 
 	searchField.addEventListener("input", function() {
 		showHideCells();
 	});
 
-	refreshButton.addEventListener("click", () => {
+	refreshButton.addEventListener("click", function() {
 		var allCells = contentContainer.querySelectorAll('.mdl-cell');
 		var currentInput = searchField.value.replace(/[!@#\$%\^&\*\(\)\+=\{}\[\]\|\\;'"<>,.?/]/g, '').toLowerCase();
 		
@@ -286,29 +291,37 @@ var main = function() {
 		}
 
 		// load api and cards/cells, then hide/show relevant ones
-		Promise.all(apiPromise(streamArr)).then((result) => loadCells(result)).then(function() {
+		Promise.all(apiPromise(streamArr)).then(function(result) {
+			loadCells(result);
+		}).then(function() {
 			showHideCells();
 		});		
 	});
 
 	// for auto-refresh dialog
-	if (!dialog.showModal) {
-    	dialogPolyfill.registerDialog(dialog);
-    }
+	document.getElementById('autorefresh-button').addEventListener('click', function() {
+		// create overlay
+		var overlay = document.createElement('div');
+		overlay.className += 'new-dialog__overlay';
+		document.querySelector('body').insertBefore(overlay, parent.firstChild);
 
-    document.getElementById('autorefresh-button').addEventListener('click', function(evt) {
-    	dialog.showModal();
-
-    	// remove focus animation that appears when dialog is launched
-    	if (document.querySelector('.mdl-switch').classList.contains('is-focused')) {
-    		document.querySelector('.mdl-switch').classList.remove('is-focused');
-    	}
-    });
+		// show dialog
+		if (!dialog.classList.contains('show')) {
+			dialog.className += ' show';
+		}
+	});
 
     document.getElementById('dialog-cancel').addEventListener('click', function() {
     	var autoRefreshToggle = document.querySelector('.mdl-switch');
+    	var overlay = document.querySelector('.new-dialog__overlay');
 
-    	dialog.close();
+    	// close dialog
+    	if (dialog.classList.contains('show')) {
+			dialog.classList.remove('show');
+		}
+
+		// clear overlay
+		overlay.parentNode.removeChild(overlay);
 
     	// determine state of auto-refresh toggle when closed
     	if (autoRefreshOn == 0 && autoRefreshToggle.classList.contains('is-checked')) {
@@ -326,29 +339,29 @@ var main = function() {
     				if (!refreshSlider.classList.contains('is-lowest-value')) {
     					refreshSlider.className += ' is-lowest-value';
     				}
-    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '0 1 0%';
-    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '1 1 0%';
+    				sliderLower.style.flex = '0 1 0%';
+    				sliderUpper.style.flex = '1 1 0%';
     				break;
     			case 30:
     				if (refreshSlider.classList.contains('is-lowest-value')) {
     					refreshSlider.classList.remove('is-lowest-value');
     				}
-    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '0.333333 1 0%';
-    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '0.666667 1 0%';
+    				sliderLower.style.flex = '0.333333 1 0%';
+    				sliderUpper.style.flex = '0.666667 1 0%';
     				break;
     			case 45:
     				if (refreshSlider.classList.contains('is-lowest-value')) {
     					refreshSlider.classList.remove('is-lowest-value');
     				}
-    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '0.666667 1 0%';
-    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '0.333333 1 0%';
+    				sliderLower.style.flex = '0.666667 1 0%';
+    				sliderUpper.style.flex = '0.333333 1 0%';
     				break;
     			case 60:
     				if (refreshSlider.classList.contains('is-lowest-value')) {
     					refreshSlider.classList.remove('is-lowest-value');
     				}
-    				dialog.querySelector('.mdl-slider__background-lower').style.flex = '1 1 0%';
-    				dialog.querySelector('.mdl-slider__background-upper').style.flex = '0 1 0%';
+    				sliderLower.style.flex = '1 1 0%';
+    				sliderUpper.style.flex = '0 1 0%';
     				break;
     		}
     	}
@@ -356,8 +369,15 @@ var main = function() {
 
     document.getElementById('dialog-okay').addEventListener('click', function() {
     	var autoRefreshToggle = document.querySelector('.mdl-switch');
+    	var overlay = document.querySelector('.new-dialog__overlay');
 
-    	dialog.close();
+    	// close dialog
+    	if (dialog.classList.contains('show')) {
+			dialog.classList.remove('show');
+		}
+
+		// clear overlay
+		overlay.parentNode.removeChild(overlay);
 
     	// start new auto-refresh if there is a new timer value OR 
 		// if autoRefresh is not previously switched on
@@ -398,7 +418,9 @@ var main = function() {
 					allCells[cell].parentNode.removeChild(allCells[cell]);
 				}
     			
-				Promise.all(apiPromise(streamArr)).then((result) => loadCells(result)).then(function() {
+				Promise.all(apiPromise(streamArr)).then(function(result) {
+					loadCells(result);
+				}).then(function() {
 					showHideCells();
 				});
 			}, refreshSlider.value * 1000);
@@ -423,7 +445,7 @@ var main = function() {
     	timerValue = refreshSlider.value;    	
     });
 
-    refreshSlider.addEventListener('input', function() {
+    refreshSlider.addEventListener('change', function() {
     	timerValueDisplay.innerHTML = refreshSlider.value + "s";
     });
 };
