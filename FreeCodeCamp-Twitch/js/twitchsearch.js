@@ -378,6 +378,14 @@ var main = function() {
 	    		}
 	    	}
     	}
+
+    	// verify color of slider thumb (especially IE)
+    	if (timerValue == 15 && !refreshSlider.classList.contains('is-lowest-value')) {
+    		refreshSlider.className += ' is-lowest-value';
+    	}
+    	else if (timerValue > 15 && refreshSlider.classList.contains('is-lowest-value')) {
+    		refreshSlider.classList.remove('is-lowest-value');
+    	}
     });
 
     document.getElementById('dialog-okay').addEventListener('click', function() {
