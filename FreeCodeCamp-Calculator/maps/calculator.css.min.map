@@ -1,0 +1,1 @@
+{"version":3,"sources":["calculator.scss"],"names":[],"mappings":"AAAA,KACC,WAAY,QACZ,MAAO,KACP,YAAa,MAGd,MACC,SAAU,SACV,OAAQ,KACR,MAAO","file":"../sass/calculator.css","sourcesContent":["body {\n\tbackground: #4ab0ee;\n\tcolor: #000;\n\tfont-family: Arial;\n}\n\n.test {\n\tposition: absolute;\n\theight: 10px;\n\twidth: 100px;\n}"]}
