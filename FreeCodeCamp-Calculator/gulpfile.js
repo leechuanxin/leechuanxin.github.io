@@ -28,5 +28,5 @@ gulp.task('clone', function() {
 
 //Watch task
 gulp.task('watch', function() {
-    gulp.watch('sass/*.sass', ['sass', 'clone']);
+    gulp.watch('sass/**/*.sass', ['sass', 'clone']);
 });
