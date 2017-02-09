@@ -9,10 +9,10 @@ gulp.task('sass', function() {
     	.pipe(sourceMaps.init())
         .pipe(sass().on('error', sass.logError))
 		.pipe(cleanCss({compatibility: 'ie8'}))
-        .pipe(sourceMaps.write('../maps/'))
         .pipe(rename(function(path) {
-        	path.basename += '.min';
+            path.basename += '.min';
         }))
+        .pipe(sourceMaps.write('../maps/'))
         .pipe(gulp.dest('css/'))
 });
 
