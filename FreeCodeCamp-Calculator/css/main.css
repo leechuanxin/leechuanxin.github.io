@@ -32,24 +32,20 @@ body {
 p {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
-  margin: 0; }
+  margin: 0;
+  letter-spacing: 1px; }
 
 .input {
   color: #78909c;
   text-align: right;
   font-size: 14px;
   height: 16px;
-  margin-bottom: 12px;
-  letter-spacing: 1px; }
+  margin-bottom: 12px; }
 
 .answer {
-  font-size: 20px;
-  letter-spacing: 1px; }
+  font-size: 20px; }
   .answer .warning {
     font-size: 24px; }
-
-.warning {
-  letter-spacing: 1px; }
 
 .col, .col-1, .col-2 {
   padding: 0 6px;
