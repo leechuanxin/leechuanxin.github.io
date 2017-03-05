@@ -10,28 +10,6 @@
 // test "0.6 / 3"
 // test "-3" right after hitting equal
 // test "9 x -3"
-// add replacer for trailing zeros
-// add error notification for NaN and infinity
-
-// "9 + 9 ="
-// input display: ''
-// 
-// "."
-// input display: '.'
-// 
-
-// "9 + 9 ="
-// ans = 18
-// "x"
-// nothing happens
-// 
-
-
-var test;
-
-// console.log(test == undefined);
-
-// console.log(eval("1- - -  - - -1"));
 
 // Buttons
 var buttons = (function() {
@@ -71,11 +49,13 @@ var display = (function() {
 		answerText = 'ans'.toUpperCase(),
 		isEvaluated = true,
 		limitWarning = 'Limit Reached!'.toUpperCase(),
+		divideByZeroWarning = 'Error: Divide by Zero'.toUpperCase(),
 		maxDisplayLength = 12;
 
 	// init timeout
-	var inputWarningTimeout,
-		answerWarningTimeout;
+	var	inputWarningTimeout,
+		answerWarningTimeout,
+		divideByZeroTimeout;
 
 	// render
 	renderAnswer();
@@ -156,17 +136,40 @@ var display = (function() {
 		// init regex
 		var	ansRegex = new RegExp("(" + answerText + ")", "g"),
 			timesRegex = new RegExp("x", "g"),
-			trailingMinusRegex = new RegExp("(-{2,})", "g");
+			trailingMinusRegex = new RegExp("(-{2,})", "g"),
+			leadingZeroesBeforeNonZeroesRegex = new RegExp("^0+[1-9]|[^\\d.]0+[1-9]", "g"),
+			leadingZeroesBeforeZeroesRegex = new RegExp("^0+|[^\\d.]0+", "g");
 
 		// init replacer functions
 		var trailingMinusReplacer = function(match) {
 			return match.split('').join(' ');
 		};
+		var leadingZeroesBeforeNonZeroesReplacer = function(match) {
+			var firstChar = match[0];
+			var lastChar = match[match.length - 1];
 
-		// replace all "ans" and 'x' and trailing minuses
-		var tempInput = inputText.replace(ansRegex, answerNum.toString())
-								 .replace(timesRegex, "*")
-								 .replace(trailingMinusRegex, trailingMinusReplacer);
+			if (firstChar == '+' || firstChar == '-' || firstChar == 'x' || firstChar == '/') {
+				return firstChar + lastChar;
+			}
+			
+			return lastChar;
+		};
+		var leadingZeroesBeforeZeroesReplacer = function(match) {
+			var firstChar = match[0];
+
+			if (firstChar == '+' || firstChar == '-' || firstChar == 'x' || firstChar == '/') {
+				return firstChar + "0";
+			}
+			
+			return "0";
+		};
+
+		// replace all "ans", 'x', leading zeroes and trailing minuses
+		var tempInput =	inputText.replace(ansRegex, answerNum.toString())
+						.replace(leadingZeroesBeforeNonZeroesRegex, leadingZeroesBeforeNonZeroesReplacer)
+						.replace(leadingZeroesBeforeZeroesRegex, leadingZeroesBeforeZeroesReplacer)
+						.replace(timesRegex, "*")
+						.replace(trailingMinusRegex, trailingMinusReplacer);
 
 		// init previous input
 		var previousInput = tempInput[tempInput.length - 1];
@@ -175,14 +178,6 @@ var display = (function() {
 		if (util.isNumber(previousInput)) {
 			// eval answer
 			renderAnswer(eval(tempInput).toString());
-
-			// clear all input
-			inputText = '';
-
-			// set new calculation
-			isEvaluated = true;
-
-			renderInput();
 		}
 	};
 
@@ -192,38 +187,61 @@ var display = (function() {
 	};
 
 	// hide warning
-	function hideWarning(element, elementDisplay) {
-		if (element.classList.contains('input')) {
-			inputWarningTimeout = setTimeout(function() {
+	function hideWarning(element, elementDisplay, warning) {
+		if (warning == 'divideByZero') {
+			divideByZeroTimeout = setTimeout(function() {
 				if (element.classList.contains('warning')) {
 					element.classList.remove('warning');
 				}
 
-				input.textContent = elementDisplay;
+				element.textContent = elementDisplay;
 			}, 1000);
 		}
 		else {
-			answerWarningTimeout = setTimeout(function() {
-				if (element.classList.contains('warning')) {
-					element.classList.remove('warning');
-				}
+			if (element.classList.contains('input')) {
+				inputWarningTimeout = setTimeout(function() {
+					if (element.classList.contains('warning')) {
+						element.classList.remove('warning');
+					}
 
-				answer.textContent = elementDisplay;
-			}, 1000);
+					input.textContent = elementDisplay;
+				}, 1000);
+			}
+			else {
+				answerWarningTimeout = setTimeout(function() {
+					if (element.classList.contains('warning')) {
+						element.classList.remove('warning');
+					}
+
+					answer.textContent = elementDisplay;
+				}, 1000);
+			}
 		}
 	};
 
 	// render answer
 	function renderAnswer(str) {
 		var	currentAnswerDisplay = answer.textContent,
-			nextAnswerDisplay = str || answerNum.toString();
+			nextAnswerDisplay = str || answerNum.toString(),
+			isNextAnswerFinite = isFinite(Number(nextAnswerDisplay.toString()));
 
-		if (nextAnswerDisplay.length <= maxDisplayLength) {
+		// show warning if max display length reached or number is not finite
+		if (nextAnswerDisplay.length <= maxDisplayLength && isNextAnswerFinite) {
 			answerNum = Number(nextAnswerDisplay);
 			answer.textContent = nextAnswerDisplay;
+
+			// clear all input
+			inputText = '';
+
+			// set new calculation
+			isEvaluated = true;
+
+			renderInput();
 		}
 		else if (!answer.classList.contains('warning')) {
-			showWarning(answer, currentAnswerDisplay);
+			var warningType = (!isNextAnswerFinite) ? 'divideByZero' : 'displayLimit';
+
+			showWarning(answer, currentAnswerDisplay, warningType);
 		}
 	};
 
@@ -237,26 +255,33 @@ var display = (function() {
 			input.textContent = inputText;
 		}
 		else if (!input.classList.contains('warning')) {
-			showWarning(input, currentInputDisplay);
+			showWarning(input, currentInputDisplay, 'displayLimit');
 		}
 	};
 
 	// show warning
-	function showWarning(element, elementDisplay) {
+	function showWarning(element, elementDisplay, warning) {
 		element.className += ' warning';
 
-		if (element.classList.contains('input')) {
-			clearTimeout(inputWarningTimeout);
+		if (warning == 'divideByZero') {
+			clearTimeout(divideByZeroTimeout);
 
-			input.textContent = limitWarning;
+			element.textContent = divideByZeroWarning;
 		}
 		else {
-			clearTimeout(answerWarningTimeout);
+			if (element.classList.contains('input')) {
+				clearTimeout(inputWarningTimeout);
 
-			answer.textContent = limitWarning;
+				input.textContent = limitWarning;
+			}
+			else {
+				clearTimeout(answerWarningTimeout);
+
+				answer.textContent = limitWarning;
+			}
 		}
 
-		hideWarning(element, elementDisplay);
+		hideWarning(element, elementDisplay, warning);
 	};
 
 	return {
