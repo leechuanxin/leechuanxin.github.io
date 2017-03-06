@@ -1,15 +1,5 @@
 'use strict';
 
-// test 1.22 + 5.6 x 1.3
-// test "x3"
-// test "."
-// test ".3"
-// test "00000000"
-// test "0/0"
-// test "0.3 + 0.6"
-// test "0.6 / 3"
-// test "-3" right after hitting equal
-// test "9 x -3"
 
 // Buttons
 var buttons = (function() {
@@ -50,7 +40,9 @@ var display = (function() {
 		isEvaluated = true,
 		limitWarning = 'Limit Reached!'.toUpperCase(),
 		divideByZeroWarning = 'Error: Divide by Zero'.toUpperCase(),
-		maxDisplayLength = 12;
+		maxDisplayLength = 12,
+		maxNum = Math.pow(10, maxDisplayLength),
+		minNum = -Math.pow(10, maxDisplayLength - 1);
 
 	// init timeout
 	var	inputWarningTimeout,
@@ -116,8 +108,8 @@ var display = (function() {
 	function clearEntry() {
 		var previousInput = inputText[inputText.length - 1];
 
-		// if operator, clear it
-		if (util.isOperator(previousInput)) {
+		// if operator, clear the characters one at a time
+		if (util.isDecimalPointOrNumberOrOperator(previousInput)) {
 			inputText = inputText.slice(0, inputText.length - 1);
 		}
 		// if not operator, clear its entire entry until next operator or empty string
@@ -165,19 +157,20 @@ var display = (function() {
 		};
 
 		// replace all "ans", 'x', leading zeroes and trailing minuses
-		var tempInput =	inputText.replace(ansRegex, answerNum.toString())
-						.replace(leadingZeroesBeforeNonZeroesRegex, leadingZeroesBeforeNonZeroesReplacer)
-						.replace(leadingZeroesBeforeZeroesRegex, leadingZeroesBeforeZeroesReplacer)
-						.replace(timesRegex, "*")
-						.replace(trailingMinusRegex, trailingMinusReplacer);
+		var replacedInput =	inputText
+							.replace(ansRegex, answerNum.toString())
+							.replace(leadingZeroesBeforeNonZeroesRegex, leadingZeroesBeforeNonZeroesReplacer)
+							.replace(leadingZeroesBeforeZeroesRegex, leadingZeroesBeforeZeroesReplacer)
+							.replace(timesRegex, "*")
+							.replace(trailingMinusRegex, trailingMinusReplacer);
 
 		// init previous input
-		var previousInput = tempInput[tempInput.length - 1];
+		var previousInput = replacedInput[replacedInput.length - 1];
 
 		// evaluates only if last input entry is number
 		if (util.isNumber(previousInput)) {
 			// eval answer
-			renderAnswer(eval(tempInput).toString());
+			renderAnswer(eval(replacedInput));				
 		}
 	};
 
@@ -220,15 +213,17 @@ var display = (function() {
 	};
 
 	// render answer
-	function renderAnswer(str) {
+	function renderAnswer(num) {
 		var	currentAnswerDisplay = answer.textContent,
-			nextAnswerDisplay = str || answerNum.toString(),
-			isNextAnswerFinite = isFinite(Number(nextAnswerDisplay.toString()));
+			answerDisplayNum = (num == undefined) ? answerNum : num,
+			answerDisplayStr = round(answerDisplayNum.toString()),
+			isNextAnswerFinite = isFinite(Number(answerDisplayStr)),
+			warningType = (!isNextAnswerFinite) ? 'divideByZero' : 'displayLimit';
 
-		// show warning if max display length reached or number is not finite
-		if (nextAnswerDisplay.length <= maxDisplayLength && isNextAnswerFinite) {
-			answerNum = Number(nextAnswerDisplay);
-			answer.textContent = nextAnswerDisplay;
+		// show warning if max display length or min/max number reached or number is not finite
+		if (answerDisplayStr.length <= maxDisplayLength && answerDisplayNum < maxNum && answerDisplayNum > minNum && isNextAnswerFinite) {
+			answerNum = answerDisplayNum;
+			answer.textContent = answerDisplayStr;
 
 			// clear all input
 			inputText = '';
@@ -239,8 +234,6 @@ var display = (function() {
 			renderInput();
 		}
 		else if (!answer.classList.contains('warning')) {
-			var warningType = (!isNextAnswerFinite) ? 'divideByZero' : 'displayLimit';
-
 			showWarning(answer, currentAnswerDisplay, warningType);
 		}
 	};
@@ -257,6 +250,69 @@ var display = (function() {
 		else if (!input.classList.contains('warning')) {
 			showWarning(input, currentInputDisplay, 'displayLimit');
 		}
+	};
+
+	// round trailing decimal digits
+	function round(str) {
+		var	decimalPointIndex = str.indexOf('.'),
+			divisionPow = 0,
+			fractionalLeadingZeroesCount = 0,
+			fractionalValue = str.split('.')[1],
+			fractionalValueLength,
+			integerValue = str.split('.')[0],
+			integerValueLength = integerValue.length,
+			fractionalExponentIndex,
+			fractionalExponentValue,
+			fractionalExponentValueLength,
+			hasFractionalExponent,
+			roundedFractionalValue,
+			roundedFractionalValueArr,
+			roundedFractionalValueLength,
+			roundedNum = integerValue;
+
+		if (decimalPointIndex > -1) {
+			fractionalExponentIndex = fractionalValue.indexOf('e');
+			fractionalExponentValue = fractionalValue.split('e')[1];
+			hasFractionalExponent = (fractionalExponentIndex > -1);
+			fractionalExponentValueLength = (hasFractionalExponent) ? fractionalExponentValue.length : 0;
+
+			fractionalValue = (hasFractionalExponent) ? fractionalValue.split('e')[0] : fractionalValue;
+			fractionalValueLength = fractionalValue.length;
+			roundedFractionalValueLength = (hasFractionalExponent) ? (maxDisplayLength - 2 - integerValueLength - fractionalExponentValueLength) : (maxDisplayLength - 1 - integerValueLength),
+			divisionPow = fractionalValueLength - roundedFractionalValueLength;
+
+			// calculate number of leading zeroes
+			for (var i = 0; fractionalValue[i] == '0'; i++) {
+				fractionalLeadingZeroesCount += 1;
+			}
+
+			// round fractional value to its maximum length
+			roundedFractionalValue = Math.round(Number(fractionalValue) / Math.pow(10, divisionPow)).toString();
+
+			// re-add leading zeroes to rounded fractional value string
+			for (var j = 0; j < fractionalLeadingZeroesCount; j++) {
+				roundedFractionalValue = '0' + roundedFractionalValue;
+			}
+
+			// remove trailing zeroes
+			for (var k = roundedFractionalValue.length - 1; roundedFractionalValue[k] == '0'; k--) {
+				roundedFractionalValueArr = roundedFractionalValue.split('');
+				roundedFractionalValueArr.pop();
+				roundedFractionalValue = roundedFractionalValueArr.join('');
+			}
+
+			if (hasFractionalExponent) {
+				roundedNum += ((roundedFractionalValue == '') ? '' : '.' + roundedFractionalValue) + 'e' + fractionalExponentValue;
+			}
+			else {
+				roundedNum += (roundedFractionalValue == '') ? '' : '.' + roundedFractionalValue;
+			}
+
+			return roundedNum;
+		}
+
+		// return original string if no decimal point found
+		return str;
 	};
 
 	// show warning
@@ -296,64 +352,64 @@ var display = (function() {
 
 // Utility 
 var util = (function() {
-	// checks if string is answer text
-	function isAnswer(str) {
-		return (str == display.getAnswerText());
+	// checks if char is answer text
+	function isAnswer(char) {
+		return (char == display.getAnswerText());
 	};
 
-	// checks if string is answer or number or decimal point
-	function isAnswerOrDecimalPointOrNumber(str) {
-		return isAnswer(str) || isDecimalPoint(str) || isNumber(str);
+	// checks if char is answer or number or decimal point
+	function isAnswerOrDecimalPointOrNumber(char) {
+		return isAnswer(char) || isDecimalPointOrNumber(char);
 	};
 
-	// checks if string is decimal point
-	function isDecimalPoint(str) {
-		return (str == '.');
+	// checks if char is decimal point
+	function isDecimalPoint(char) {
+		return (char == '.');
 	};
 
-	// checks if string is decimal point or number
-	function isDecimalPointOrNumber(str) {
-		return isDecimalPoint(str) || isNumber(str);
+	// checks if char is decimal point or number
+	function isDecimalPointOrNumber(char) {
+		return isDecimalPoint(char) || isNumber(char);
 	};
 
-	// checks if string is decimal point or operator
-	function isDecimalPointOrOperator(str) {
-		return isDecimalPoint(str) || isOperator(str);
+	// checks if char is decimal point or number or operator
+	function isDecimalPointOrNumberOrOperator(char) {
+		return isDecimalPointOrNumber(char) || isOperator(char);
 	};
 
-	// checks if string is divide
-	function isDivide(str) {
-		return (str == '/');
+	// checks if char is divide
+	function isDivide(char) {
+		return (char == '/');
 	};
 
-	// checks if string is minus
-	function isMinus(str) {
-		return (str == '-');
+	// checks if char is minus
+	function isMinus(char) {
+		return (char == '-');
 	};
 
-	// checks if string is an operator, but not minus
-	function isNotMinusOperator(str) {
-		return (isTimes(str) || isDivide(str) || isPlus(str));
+	// checks if char is an operator, but not minus
+	function isNotMinusOperator(char) {
+		return isOperator(char) && !isMinus(char);
 	};
 
-	// checks if string is number
-	function isNumber(str) {
-		return !isNaN(Number(str));
+	// checks if char is number
+	function isNumber(char) {
+		return !isNaN(Number(char));
 	};
 
-	// checks if string is plus
-	function isPlus(str) {
-		return (str == '+');
+	// checks if char is plus
+	function isPlus(char) {
+		return (char == '+');
 	};
 
-	// checks if string is times
-	function isTimes(str) {
-		return (str == 'x');
+	// checks if char is times
+	function isTimes(char) {
+		return (char == 'x');
 	};
 
-	// checks if string is operator
-	function isOperator(str) {
-		return (isTimes(str) || isDivide(str) || isPlus(str) || isMinus(str));
+	// checks if char is operator
+	function isOperator(char) {
+		return isTimes(char) || isDivide(char) || isPlus(char) || isMinus(char);
 	};
 
 	return {
@@ -361,11 +417,10 @@ var util = (function() {
 		isAnswerOrDecimalPointOrNumber: isAnswerOrDecimalPointOrNumber,
 		isDecimalPoint: isDecimalPoint,
 		isDecimalPointOrNumber: isDecimalPointOrNumber,
-		isDecimalPointOrOperator: isDecimalPointOrOperator,
+		isDecimalPointOrNumberOrOperator: isDecimalPointOrNumberOrOperator,
 		isMinus: isMinus,
 		isNotMinusOperator: isNotMinusOperator,
 		isNumber: isNumber,
 		isOperator: isOperator
 	};
 })();
-	
