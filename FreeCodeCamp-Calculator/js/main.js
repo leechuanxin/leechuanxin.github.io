@@ -27,7 +27,6 @@ var buttons = (function() {
 	// callback for click event handler
 	function buttonClickCallback(buttonTextContent) {
 		return function() {
-			console.log(buttonTextContent);
 			switch(buttonTextContent) {
 				case "C":
 					display.clearAll();
