@@ -10,6 +10,9 @@
 
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/main.min.css">
+
+	<!-- classList polyfill -->
+	<script src="js/classList.min.js"></script>
 </head>
 
 <body>
@@ -22,15 +25,15 @@
 	<div class="wrapper">
 		<div class="col col-2">
 			<div class="row">
-				<button>C</button>
-				<button><span>C</span>E</button>
+				<button id='cButton'>C</button>
+				<button id='ceButton'><span>C</span>E</button>
 			</div>
 			<div class="row">
-				<button>7</button>
-				<button>8</button>
+				<button id='sevenButton'>7</button>
+				<button id='eightButton'>8</button>
 			</div>
 			<div class="row">
-				<button>4</button>
+				<button id='fourButton'>4</button>
 				<button>5</button>
 			</div>
 			<div class="row">

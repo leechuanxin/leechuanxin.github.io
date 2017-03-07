@@ -47,8 +47,9 @@ p {
   height: 23px; }
 
 .answer.warning {
-  font-size: 15.5px;
-  padding-top: 3px; }
+  font-family: 'Coverface SE Bold', sans-serif;
+  font-size: 14px;
+  padding-top: 4px; }
 
 .col, .col-1, .col-2 {
   padding: 0 6px;

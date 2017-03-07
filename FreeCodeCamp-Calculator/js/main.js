@@ -6,10 +6,29 @@ var buttons = (function() {
 	// cache DOM
 	var button = document.querySelectorAll('button');
 
-	// bind events
-	button.forEach(function(el) {
-		el.addEventListener("click", function() {
-			switch(el.textContent) {
+	// bind click events
+	for (var i = 0; i < button.length; i++) {
+		var currentButton = button[i];
+		var currentButtonText = currentButton.textContent;
+
+		bindEvent(currentButton, 'click', buttonClickCallback(currentButtonText));
+	}
+
+	// bind events: inclusive of attachEvent for IE
+	function bindEvent(el, eventName, eventHandler) {
+		if (el.addEventListener) {
+			el.addEventListener(eventName, eventHandler, false);
+		}
+		else if (el.attachEvent) {
+			el.attachEvent('on' + eventName, eventHandler);
+		}
+	};
+
+	// callback for click event handler
+	function buttonClickCallback(buttonTextContent) {
+		return function() {
+			console.log(buttonTextContent);
+			switch(buttonTextContent) {
 				case "C":
 					display.clearAll();
 					break;
@@ -20,10 +39,10 @@ var buttons = (function() {
 					display.equal();
 					break;
 				default:
-					display.addInput(el.textContent);
+					display.addInput(buttonTextContent);
 			}
-		});
-	});
+		};
+	};
 })();
 
 
