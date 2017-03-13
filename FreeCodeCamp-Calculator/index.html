@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+	<title>Calculator</title>
+
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/main.min.css">
+
+	<!-- classList polyfill -->
+	<script src="js/classList.min.js"></script>
+</head>
+
+<body>
+
+<div class="calculator">
+	<div class="display">
+		<p class="input"></p>
+		<p class="answer"></p>
+	</div>
+	<div class="wrapper">
+		<div class="col col-2">
+			<div class="row">
+				<button id='cButton'>C</button>
+				<button id='ceButton'><span>C</span>E</button>
+			</div>
+			<div class="row">
+				<button id='sevenButton'>7</button>
+				<button id='eightButton'>8</button>
+			</div>
+			<div class="row">
+				<button id='fourButton'>4</button>
+				<button>5</button>
+			</div>
+			<div class="row">
+				<button>1</button>
+				<button>2</button>
+			</div>
+			<div class="row">
+				<button>0</button>
+				<button>.</button>
+			</div>
+		</div>
+		<div class="col col-1">
+			<div class="row">
+				<button>/</button>
+			</div>
+			<div class="row">
+				<button>9</button>
+			</div>
+			<div class="row">
+				<button>6</button>
+			</div>
+			<div class="row">
+				<button>3</button>
+			</div>
+			<div class="row">
+				<button class="ans"><span>AN</span>S</button>
+			</div>
+		</div>
+		<div class="col col-1">
+			<div class="row">
+				<button class="times">x</button>
+			</div>
+			<div class="row">
+				<button>-</button>
+			</div>
+			<div class="row">
+				<button>+</button>
+			</div>
+			<div class="row">
+				<button class="btn-y">=</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="credits">
+	<p>Original design by <a href="https://medium.com/@yinglingtan/001-sign-up-171259b3a62d#.18kurj28g" target="_blank">Tan Ying Ling</a>.</p>
+	<p> Design modified for the <a href="https://www.freecodecamp.com/challenges/build-a-javascript-calculator" target="_blank">FreeCodeCamp Calculator</a> project.</p>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+
+</html>
