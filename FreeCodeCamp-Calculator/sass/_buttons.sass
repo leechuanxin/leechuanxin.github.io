@@ -1,0 +1,59 @@
+//
+// Buttons
+// --------------------------------------------------
+
+button
+	background:		$btn-bg
+	border:			0
+	border-bottom:	$btn-border-width solid $btn-border-color
+	border-radius:	6px
+	color:			$btn-color
+	font-family:	$font-family
+	font-size:		18px
+	height:			$btn-height
+	padding:		$btn-padding-y 0
+	width:			46px
+
+	span	
+		letter-spacing: 2px
+
+
+button:not(:first-child)
+	margin-left: floor($gutter-width / 2) + 3px
+
+
+// Focus and active states
+button:focus
+	outline: 	none
+
+button:active
+	border:			0
+	height:			$btn-height - $btn-border-width
+	margin-bottom:	$btn-border-width
+	position:		relative
+	top:			$btn-border-width
+
+
+// Vertically centerising 'times' sign
+button.times
+	padding-top:	$btn-padding-y - 3px
+
+// Answer button
+button.ans
+	font-size:		11px
+	padding:		10px 0 8px 0
+
+// Buttons with extended x-widths
+.btn-x
+	width:			100%
+	text-align:		left
+	padding:		9px 17px
+
+
+// Buttons with extended y-widths
+.btn-y
+	height: 		$btn-y-height
+	line-height:	118px
+
+.btn-y:active
+	height:		$btn-y-height - $btn-border-width
