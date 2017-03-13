@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+	<title>Twitchsearch</title>
+
+	<link rel="stylesheet" href="css/material.min.css">
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+	<link rel="stylesheet" href="css/codepen.css">
+
+	<!-- polyfill for js promise -->
+	<script src="https://www.promisejs.org/polyfills/promise-7.0.4.min.js"></script>
+
+	<script src="js/material.min.js"></script>
+
+</head>
+
+<body>
+
+<!-- dialog -->
+<div class="new-dialog" id="dialog">
+	<h5 class="new-dialog__title">Set Auto-Refresh</h5>
+	<div class="new-dialog__content">
+		<div class="switch-wrapper">
+			<p class="new-label switch">Auto-Refresh</p>
+			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="refreshToggle">
+				<input type="checkbox" id="refreshToggle" class="mdl-switch__input">
+			</label>
+		</div>
+		<div class="timer-wrapper">
+			<p class="new-label timer">Timer</p>
+			<input class="mdl-slider mdl-js-slider" type="range" id="refreshSlider" min="15" 
+			max="60" value="15" step="15">
+			<p class="timer-value"></p>
+		</div>
+	</div>
+	<div class="mdl-dialog__actions">
+		<button type="button" class="mdl-button" id="dialog-okay">Okay</button>
+		<button type="button" class="mdl-button" id="dialog-cancel">Cancel</button>
+	</div>
+</div>
+
+<!-- Simple header with fixed tabs. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+	<header class="mdl-layout__header">
+		<div class="mdl-layout__header-row">
+			<!-- Search field -->
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+      			<label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+              		<i class="material-icons">search</i>
+          		</label>
+          		<div class="mdl-textfield__expandable-holder">
+          			<input class="mdl-textfield__input" type="text" id="search">
+          			<label class="mdl-textfield__label" for="search">Search a streamer or game...</label>
+  				</div>
+			</div>
+			<div class="mdl-layout-spacer"></div>
+      		<!-- Right aligned menu below button -->
+			<button id="menu-button" class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">more_vert</i>
+			</button>
+			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-button">
+				<li class="mdl-menu__item" id="refresh-button">Refresh</li>
+				<li class="mdl-menu__item" id="autorefresh-button">Set Auto-Refresh...</li>
+			</ul>
+		</div>
+    	<!-- Tabs -->
+		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+			<a href="#fixed-tab-1" class="mdl-layout__tab is-active">Online</a>
+			<a href="#fixed-tab-2" class="mdl-layout__tab">Offline</a>
+			<a href="#fixed-tab-3" class="mdl-layout__tab">All</a>
+		</div>
+	</header>
+	<main class="mdl-layout__content">
+		<div class="mdl-js-snackbar mdl-snackbar mdl-snackbar--active hide" id="autoRefreshSnackbar">
+			<p class="mdl-snackbar__text"></p>
+			<button class="mdl-snackbar__action" type="button"></button>
+		</div>
+		<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+			<div class="page-content">
+				<div class="mdl-grid">
+				</div>
+			</div>
+		</section>
+		<section class="mdl-layout__tab-panel" id="fixed-tab-2">
+			<div class="page-content">
+				<div class="mdl-grid">
+				</div>
+			</div>
+		</section>
+		<section class="mdl-layout__tab-panel" id="fixed-tab-3">
+			<div class="page-content">
+				<div class="mdl-grid">
+				</div>
+			</div>
+		</section>
+	</main>
+</div>
+
+<!-- dialog overlay -->
+<div class="new-dialog__overlay"></div>
+
+<script src='js/codepen.js'></script>
+
+</body>
+
+</html>
