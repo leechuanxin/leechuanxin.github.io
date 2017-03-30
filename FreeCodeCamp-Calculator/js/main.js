@@ -48,24 +48,22 @@ var buttons = (function() {
 // Display
 var display = (function() {
 	// cache DOM
-	var	input = document.querySelector('.input'),
-		answer = document.querySelector('.answer');
+	var input = document.querySelector('.input').querySelector('span'),
+	    answer = document.querySelector('.answer');
 
 	// init variables
-	var	inputText = '',
-		answerNum = 0,
-		answerText = 'ans'.toUpperCase(),
-		isEvaluated = true,
-		limitWarning = 'Limit Reached!'.toUpperCase(),
-		divideByZeroWarning = 'Error: Divide by Zero'.toUpperCase(),
-		maxDisplayLength = 12,
-		maxNum = Math.pow(10, maxDisplayLength),
-		minNum = -Math.pow(10, maxDisplayLength - 1);
+	var inputText = '',
+	    answerNum = 0,
+	    answerText = 'ans'.toUpperCase(),
+	    isEvaluated = true,
+	    displayLimitWarning = 'Error: Limit Reached'.toUpperCase(),
+	    divideByZeroWarning = 'Error: Divide by Zero'.toUpperCase(),
+	    maxAnswerLength = 12,
+	    maxInputWidth = 209; // input limit determined by width in px, not number of chars
 
 	// init timeout
-	var	inputWarningTimeout,
-		answerWarningTimeout,
-		divideByZeroTimeout;
+	var displayLimitTimeout,
+	    divideByZeroTimeout;
 
 	// render
 	renderAnswer();
@@ -74,25 +72,25 @@ var display = (function() {
 	// add input
 	function addInput(newInput) {
 		// init indexes
-		var	previousInput = inputText[inputText.length - 1],
-			divideLastIndex = inputText.lastIndexOf('/'),
-			minusLastIndex = inputText.lastIndexOf('-'),
-			plusLastIndex = inputText.lastIndexOf('+'),
-			timesLastIndex = inputText.lastIndexOf('x'),
-			operatorLastIndexArr = [divideLastIndex, minusLastIndex, plusLastIndex, timesLastIndex];
+		var previousInput = inputText[inputText.length - 1],
+		    divideLastIndex = inputText.lastIndexOf('/'),
+		    minusLastIndex = inputText.lastIndexOf('-'),
+		    plusLastIndex = inputText.lastIndexOf('+'),
+		    timesLastIndex = inputText.lastIndexOf('x'),
+		    operatorLastIndexArr = [divideLastIndex, minusLastIndex, plusLastIndex, timesLastIndex];
 
 		// init basic conditions
-		var	hasDecimalPointAfterLastOperator = (inputText.lastIndexOf('.') > Math.max.apply(null, operatorLastIndexArr)),
-			isPreviousInputAnswer = (inputText.slice(inputText.length - answerText.length) == answerText);	
+		var hasDecimalPointAfterLastOperator = (inputText.lastIndexOf('.') > Math.max.apply(null, operatorLastIndexArr)),
+		    isPreviousInputAnswer = (inputText.slice(inputText.length - answerText.length) == answerText);	
 			
 		// init complex conditions
-		var	hasDigitAfterAnswer = isPreviousInputAnswer && util.isAnswerOrDecimalPointOrNumber(newInput),
-			hasDigitBeforeAnswer = util.isAnswer(newInput) && (util.isDecimalPointOrNumber(previousInput) || isPreviousInputAnswer),
-			displayAnswerBeforeMinus = util.isMinus(newInput) && (isEvaluated == true) && (answerNum != 0),
-			hasMultipleDecimalPoints = util.isDecimalPoint(newInput) && hasDecimalPointAfterLastOperator,
-			hasNotNumberAfterDecimalPoint = util.isDecimalPoint(previousInput) && !util.isNumber(newInput),
-			hasOperatorAfterOperator = util.isOperator(previousInput) && util.isNotMinusOperator(newInput),
-			rejectedConditions = hasDigitAfterAnswer || hasDigitBeforeAnswer || hasMultipleDecimalPoints || hasNotNumberAfterDecimalPoint || hasOperatorAfterOperator;
+		var hasDigitAfterAnswer = isPreviousInputAnswer && util.isAnswerOrDecimalPointOrNumber(newInput),
+		    hasDigitBeforeAnswer = util.isAnswer(newInput) && (util.isDecimalPointOrNumber(previousInput) || isPreviousInputAnswer),
+		    displayAnswerBeforeMinus = util.isMinus(newInput) && (isEvaluated == true) && (answerNum != 0),
+		    hasMultipleDecimalPoints = util.isDecimalPoint(newInput) && hasDecimalPointAfterLastOperator,
+		    hasNotNumberAfterDecimalPoint = util.isDecimalPoint(previousInput) && !util.isNumber(newInput),
+		    hasOperatorAfterOperator = util.isOperator(previousInput) && util.isNotMinusOperator(newInput),
+		    rejectedConditions = hasDigitAfterAnswer || hasDigitBeforeAnswer || hasMultipleDecimalPoints || hasNotNumberAfterDecimalPoint || hasOperatorAfterOperator;
 
 		// add 'ans' text for all operators (except minus)
 		// if minus, add 'ans' if current answer != 0 and input has just been evaluated
@@ -144,11 +142,11 @@ var display = (function() {
 	// equal
 	function equal() {
 		// init regex
-		var	ansRegex = new RegExp("(" + answerText + ")", "g"),
-			timesRegex = new RegExp("x", "g"),
-			trailingMinusRegex = new RegExp("(-{2,})", "g"),
-			leadingZeroesBeforeNonZeroesRegex = new RegExp("^0+[1-9]|[^\\d.]0+[1-9]", "g"),
-			leadingZeroesBeforeZeroesRegex = new RegExp("^0+|[^\\d.]0+", "g");
+		var ansRegex = new RegExp("(" + answerText + ")", "g"),
+		    timesRegex = new RegExp("x", "g"),
+		    trailingMinusRegex = new RegExp("(-{2,})", "g"),
+		    leadingZeroesBeforeNonZeroesRegex = new RegExp("^0+[1-9]|[^\\d.]0+[1-9]", "g"),
+		    leadingZeroesBeforeZeroesRegex = new RegExp("^0+|[^\\d.]0+", "g");
 
 		// init replacer functions
 		var trailingMinusReplacer = function(match) {
@@ -175,12 +173,12 @@ var display = (function() {
 		};
 
 		// replace all "ans", 'x', leading zeroes and trailing minuses
-		var replacedInput =	inputText
-							.replace(ansRegex, answerNum.toString())
-							.replace(leadingZeroesBeforeNonZeroesRegex, leadingZeroesBeforeNonZeroesReplacer)
-							.replace(leadingZeroesBeforeZeroesRegex, leadingZeroesBeforeZeroesReplacer)
-							.replace(timesRegex, "*")
-							.replace(trailingMinusRegex, trailingMinusReplacer);
+		var replacedInput = inputText
+		                    .replace(ansRegex, answerNum.toString())
+		                    .replace(leadingZeroesBeforeNonZeroesRegex, leadingZeroesBeforeNonZeroesReplacer)
+		                    .replace(leadingZeroesBeforeZeroesRegex, leadingZeroesBeforeZeroesReplacer)
+		                    .replace(timesRegex, "*")
+		                    .replace(trailingMinusRegex, trailingMinusReplacer);
 
 		// init previous input
 		var previousInput = replacedInput[replacedInput.length - 1];
@@ -197,49 +195,38 @@ var display = (function() {
 		return answerText;
 	};
 
-	// hide warning
-	function hideWarning(element, elementDisplay, warning) {
-		if (warning == 'divideByZero') {
+	// hide warning (after timeout)
+	function hideWarning(displayAfterWarning, warningType) {
+		if (warningType == 'divideByZero') {
 			divideByZeroTimeout = setTimeout(function() {
-				if (element.classList.contains('warning')) {
-					element.classList.remove('warning');
+				if (answer.classList.contains('warning')) {
+					answer.classList.remove('warning');
 				}
 
-				element.textContent = elementDisplay;
+				answer.textContent = displayAfterWarning;
 			}, 1000);
 		}
-		else {
-			if (element.classList.contains('input')) {
-				inputWarningTimeout = setTimeout(function() {
-					if (element.classList.contains('warning')) {
-						element.classList.remove('warning');
-					}
+		else if (warningType == 'displayLimit') {
+			displayLimitTimeout = setTimeout(function() {
+				if (answer.classList.contains('warning')) {
+					answer.classList.remove('warning');
+				}
 
-					input.textContent = elementDisplay;
-				}, 1000);
-			}
-			else {
-				answerWarningTimeout = setTimeout(function() {
-					if (element.classList.contains('warning')) {
-						element.classList.remove('warning');
-					}
-
-					answer.textContent = elementDisplay;
-				}, 1000);
-			}
+				answer.textContent = displayAfterWarning;
+			}, 1000);
 		}
 	};
 
 	// render answer
 	function renderAnswer(num) {
-		var	currentAnswerDisplay = answer.textContent,
-			answerDisplayNum = (num == undefined) ? answerNum : num,
-			answerDisplayStr = round(answerDisplayNum.toString()),
-			isNextAnswerFinite = isFinite(Number(answerDisplayStr)),
-			warningType = (!isNextAnswerFinite) ? 'divideByZero' : 'displayLimit';
+		var currentAnswerDisplay = answer.textContent,
+		    answerDisplayNum = (num == undefined) ? answerNum : num,
+		    answerDisplayStr = round(answerDisplayNum.toString()), // round numbers with length > maxAnswerLength
+		    isNextAnswerFinite = isFinite(Number(answerDisplayStr)),
+		    warningType = (!isNextAnswerFinite) ? 'divideByZero' : 'displayLimit';
 
-		// show warning if max display length or min/max number reached or number is not finite
-		if (answerDisplayStr.length <= maxDisplayLength && answerDisplayNum < maxNum && answerDisplayNum > minNum && isNextAnswerFinite) {
+		// render input if number is finite; otherwise show warning
+		if (isNextAnswerFinite) {
 			answerNum = answerDisplayNum;
 			answer.textContent = answerDisplayStr;
 
@@ -252,110 +239,150 @@ var display = (function() {
 			renderInput();
 		}
 		else if (!answer.classList.contains('warning')) {
-			showWarning(answer, currentAnswerDisplay, warningType);
+			showWarning(currentAnswerDisplay, inputText);
 		}
 	};
 
 	// render input
 	function renderInput(str) {
-		var	currentInputDisplay = input.textContent,
-			nextInputDisplay = str || inputText;
+		// set inputText
+		inputText = str || inputText;
 
-		if (nextInputDisplay.length <= maxDisplayLength) {
-			inputText = nextInputDisplay;
-			input.textContent = inputText;
-		}
-		else if (!input.classList.contains('warning')) {
-			showWarning(input, currentInputDisplay, 'displayLimit');
-		}
+		// render input.textContent with inputText
+		input.textContent = inputText;
+
+		// prepend ellipsis to input.textContent if input.textContent's width >= maxInputWidth
+		if (input.offsetWidth > maxInputWidth) {
+			input.textContent = '...' + inputText;
+
+			// slice characters until input (with ellipsis) fits display
+			for (var k = 1; input.offsetWidth > maxInputWidth; k++) {
+				input.textContent = '...' + inputText.substring(k);
+			}
+		};
 	};
 
-	// round trailing decimal digits
+	// round numbers with length > maxAnswerLength
 	function round(str) {
-		var	decimalPointIndex = str.indexOf('.'),
-			divisionPow = 0,
-			fractionalLeadingZeroesCount = 0,
-			fractionalValue = str.split('.')[1],
-			fractionalValueLength,
-			integerValue = str.split('.')[0],
-			integerValueLength = integerValue.length,
-			fractionalExponentIndex,
-			fractionalExponentValue,
-			fractionalExponentValueLength,
-			hasFractionalExponent,
-			roundedFractionalValue,
-			roundedFractionalValueArr,
-			roundedFractionalValueLength,
-			roundedNum = integerValue;
+		var hasDecimalPoint = (str.indexOf('.') > -1),
+		    hasExpSign = (str.indexOf('e') > -1),
+		    integerStr,
+		    decimalStr,
+		    decimalStrLeadingZeroesCount = 0,
+		    roundedDecimalStr, // decimalStr after rounding, to be compared with decimalStr
+		    expVal = 0, // initial and final exp val
+		    addedExpVal, // exp value to add to initial exp value should str.length > maxAnswerLength
+		    droppedCharCount = 0; // number of characters to drop after rounding
 
-		if (decimalPointIndex > -1) {
-			fractionalExponentIndex = fractionalValue.indexOf('e');
-			fractionalExponentValue = fractionalValue.split('e')[1];
-			hasFractionalExponent = (fractionalExponentIndex > -1);
-			fractionalExponentValueLength = (hasFractionalExponent) ? fractionalExponentValue.length : 0;
-
-			fractionalValue = (hasFractionalExponent) ? fractionalValue.split('e')[0] : fractionalValue;
-			fractionalValueLength = fractionalValue.length;
-			roundedFractionalValueLength = (hasFractionalExponent) ? (maxDisplayLength - 2 - integerValueLength - fractionalExponentValueLength) : (maxDisplayLength - 1 - integerValueLength),
-			divisionPow = fractionalValueLength - roundedFractionalValueLength;
-
-			// calculate number of leading zeroes
-			for (var i = 0; fractionalValue[i] == '0'; i++) {
-				fractionalLeadingZeroesCount += 1;
-			}
-
-			// round fractional value to its maximum length
-			roundedFractionalValue = Math.round(Number(fractionalValue) / Math.pow(10, divisionPow)).toString();
-
-			// re-add leading zeroes to rounded fractional value string
-			for (var j = 0; j < fractionalLeadingZeroesCount; j++) {
-				roundedFractionalValue = '0' + roundedFractionalValue;
-			}
-
-			// remove trailing zeroes
-			for (var k = roundedFractionalValue.length - 1; roundedFractionalValue[k] == '0'; k--) {
-				roundedFractionalValueArr = roundedFractionalValue.split('');
-				roundedFractionalValueArr.pop();
-				roundedFractionalValue = roundedFractionalValueArr.join('');
-			}
-
-			if (hasFractionalExponent) {
-				roundedNum += ((roundedFractionalValue == '') ? '' : '.' + roundedFractionalValue) + 'e' + fractionalExponentValue;
+		// set decimalStr
+		if (hasDecimalPoint) {
+			if (hasExpSign) {
+				decimalStr = str.split('.')[1].split('e')[0];
 			}
 			else {
-				roundedNum += (roundedFractionalValue == '') ? '' : '.' + roundedFractionalValue;
+				decimalStr = str.split('.')[1];
 			}
-
-			return roundedNum;
 		}
 
-		// return original string if no decimal point found
+		// rounds if str.length > maxAnswerLength
+		if (str.length > maxAnswerLength) {
+			// set addedExpVal
+			if (hasDecimalPoint) { // all number str with decimal points, including those with exp
+				addedExpVal = str.indexOf('.') - 1;
+			}
+			else if (str.indexOf('-') == 0) { // negative integers
+				addedExpVal = str.length - 2;
+			}
+			else { // positive integers
+				addedExpVal = str.length - 1;
+			}
+
+			// set integerStr
+			integerStr = (Number(str) / Math.pow(10, addedExpVal)).toString().split('.')[0];
+
+			// get exp val (if any) and set decimalStr
+			if (hasExpSign) {
+				expVal = (Number(str) / Math.pow(10, addedExpVal)).toString().split('.')[1].split('e')[1];
+			}
+			decimalStr = (Number(str) / Math.pow(10, addedExpVal)).toString().split('.')[1].split('e')[0];
+
+			// set new exp val (from addedExpVal)
+			expVal = (Number(expVal) + Number(addedExpVal)).toString();
+
+			// add '+' sign to expVal, if not negative
+			if (expVal[0] != '-') {
+				expVal = '+' + expVal;
+			}
+
+			// determine number of chars to drop (from decimalStr)
+			droppedCharCount = (integerStr + '.' + decimalStr + ((expVal[1] == '0') ? ('') : ('e' + expVal))).length 
+			                   - maxAnswerLength;
+
+			// round decimalStr (and drop chars)
+			roundedDecimalStr = (Math.round(Number(decimalStr) / Math.pow(10, droppedCharCount))).toString();
+
+			// determine number of leading zeroes in decimalStr
+			for (var i = 0; decimalStr[i] == '0'; i++) {
+				decimalStrLeadingZeroesCount += 1;
+			}
+
+			// re-add leading zeroes to roundedDecimalStr
+			for (var j = 0; j < decimalStrLeadingZeroesCount; j++) {
+				roundedDecimalStr = '0' + roundedDecimalStr;
+			}
+
+			// reset decimalStr after rounding
+			// if there's carryover, drop all decimalStr char & increase integerStr by 1
+			if (decimalStr[0] == '9' && roundedDecimalStr[0] == '1') {
+				decimalStr = '';
+				integerStr = (Number(integerStr) + 1).toString();
+			}
+			else {
+				decimalStr = roundedDecimalStr;
+			}
+
+			// drop trailing zeroes from decimalStr
+			while (decimalStr[decimalStr.length - 1] == '0') {
+				decimalStr = decimalStr.split('');
+				decimalStr.pop();
+				decimalStr = decimalStr.join('');
+			}
+
+			// reset str
+			str = integerStr 
+			      + ((decimalStr == '') ? ('') : ('.' + decimalStr)) + ((Number(expVal) != 0) ? ('e' + expVal) : '');
+		}
+
 		return str;
 	};
 
 	// show warning
-	function showWarning(element, elementDisplay, warning) {
-		element.className += ' warning';
+	function showWarning(displayAfterWarning, currentInput) {
+		// init
+		var divideByZeroRegex = /\/(0*\.)*(0+[^0-9.]|0+$)/,
+		    warningType = '';
 
-		if (warning == 'divideByZero') {
+		// add warning class
+		answer.className += ' warning';
+
+		// give divide-by-zero error if string matches regex
+		if (divideByZeroRegex.test(currentInput)) {
 			clearTimeout(divideByZeroTimeout);
 
-			element.textContent = divideByZeroWarning;
+			warningType = 'divideByZero';
+
+			answer.textContent = divideByZeroWarning;
 		}
 		else {
-			if (element.classList.contains('input')) {
-				clearTimeout(inputWarningTimeout);
+			clearTimeout(displayLimitTimeout);
 
-				input.textContent = limitWarning;
-			}
-			else {
-				clearTimeout(answerWarningTimeout);
+			warningType = 'displayLimit';
 
-				answer.textContent = limitWarning;
-			}
+			answer.textContent = displayLimitWarning;
 		}
 
-		hideWarning(element, elementDisplay, warning);
+		// hide warning (timeout in function)
+		hideWarning(displayAfterWarning, warningType);
 	};
 
 	return {
