@@ -38,7 +38,7 @@ var buttons = (function() {
 					display.equal();
 					break;
 				default:
-					display.addInput(buttonTextContent);
+					display.addEntry(buttonTextContent);
 			}
 		};
 	};
@@ -70,7 +70,7 @@ var display = (function() {
 	renderInput();
 
 	// add input
-	function addInput(newInput) {
+	function addEntry(newInput) {
 		// init indexes
 		var previousInput = inputText[inputText.length - 1],
 		    divideLastIndex = inputText.lastIndexOf('/'),
@@ -391,7 +391,7 @@ var display = (function() {
 	};
 
 	return {
-		addInput: addInput,
+		addEntry: addEntry,
 		clearEntry: clearEntry,
 		clearAll: clearAll,
 		equal: equal,
