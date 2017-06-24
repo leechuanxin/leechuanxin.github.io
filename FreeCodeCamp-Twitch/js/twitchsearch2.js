@@ -300,10 +300,9 @@ var main = function() {
 	document.getElementById('autorefresh-button').addEventListener('click', function() {
 		var autoRefreshToggle = document.querySelector('.mdl-switch');
 		// create overlay
-		
-		if (!dialogOverlay.classList.contains('show')) {
-			dialogOverlay.className += ' show';
-		}
+		var overlay = document.createElement('div');
+		overlay.className += 'new-dialog__overlay';
+		document.querySelector('body').insertBefore(overlay, parent.firstChild);
 
 		// IE bug - autoRefreshToggle may be on when it is not supposed to be when dialog is first loaded
 		if (autoRefreshOn == 0 && autoRefreshToggle.classList.contains('is-checked')) {
@@ -330,10 +329,7 @@ var main = function() {
 		}
 
 		// clear overlay
-		if (dialogOverlay.classList.contains('show')) {
-			dialogOverlay.classList.remove('show');
-		}
-		
+		overlay.parentNode.removeChild(overlay);
 
 		// determine state of auto-refresh toggle when dialog is opened
     	if (autoRefreshOn == 1 && !autoRefreshToggle.classList.contains('is-checked')) {
@@ -402,9 +398,7 @@ var main = function() {
 		}
 
 		// clear overlay
-		if (dialogOverlay.classList.contains('show')) {
-			dialogOverlay.classList.remove('show');
-		}
+		overlay.parentNode.removeChild(overlay);
 
     	// start new auto-refresh if there is a new timer value OR 
 		// if autoRefresh is not previously switched on

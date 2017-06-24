@@ -1,3 +1,11 @@
+'use strict';
+
+
+
+
+
+
+
 var main = function() {
 	// initialisation
 	var streamArr = [
@@ -149,7 +157,7 @@ var main = function() {
 		for (var a in array) {
 			dataArr.push(new Promise(function(resolve, reject) {
 				var request = new XMLHttpRequest();
-				request.open('GET', 'https://wind-bow.gomix.me/twitch-api/streams/' + streamArr[a], true);
+				request.open('GET', 'https://api.twitch.tv/kraken/streams/' + streamArr[a] + '?&client_id=wb9yd7mh8pghumx24i8jppbyxonjac', true);
 
 				request.onload = function() {
 					if (request.status >= 200 && request.status < 400) {
