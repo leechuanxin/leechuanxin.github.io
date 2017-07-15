@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Buttons
 var buttons = (function() {
 	// cache DOM
@@ -36,6 +35,9 @@ var buttons = (function() {
 					break;
 				case "=":
 					display.equal();
+					break;
+				case "-":
+					display.addEntry('\u2011');
 					break;
 				default:
 					display.addEntry(buttonTextContent);
@@ -74,7 +76,7 @@ var display = (function() {
 		// init indexes
 		var previousInput = inputText[inputText.length - 1],
 		    divideLastIndex = inputText.lastIndexOf('/'),
-		    minusLastIndex = inputText.lastIndexOf('-'),
+		    minusLastIndex = inputText.lastIndexOf('\u2011'),
 		    plusLastIndex = inputText.lastIndexOf('+'),
 		    timesLastIndex = inputText.lastIndexOf('x'),
 		    operatorLastIndexArr = [divideLastIndex, minusLastIndex, plusLastIndex, timesLastIndex];
@@ -144,9 +146,10 @@ var display = (function() {
 		// init regex
 		var ansRegex = new RegExp("(" + answerText + ")", "g"),
 		    timesRegex = new RegExp("x", "g"),
-		    trailingMinusRegex = new RegExp("(-{2,})", "g"),
+		    trailingMinusRegex = new RegExp("(\u2011{2,})", "g"),
 		    leadingZeroesBeforeNonZeroesRegex = new RegExp("^0+[1-9]|[^\\d.]0+[1-9]", "g"),
-		    leadingZeroesBeforeZeroesRegex = new RegExp("^0+|[^\\d.]0+", "g");
+		    leadingZeroesBeforeZeroesRegex = new RegExp("^0+|[^\\d.]0+", "g"),
+		    minusRegex = new RegExp("\u2011", "g");
 
 		// init replacer functions
 		var trailingMinusReplacer = function(match) {
@@ -156,7 +159,7 @@ var display = (function() {
 			var firstChar = match[0];
 			var lastChar = match[match.length - 1];
 
-			if (firstChar == '+' || firstChar == '-' || firstChar == 'x' || firstChar == '/') {
+			if (firstChar == '+' || firstChar == '\u2011' || firstChar == 'x' || firstChar == '/') {
 				return firstChar + lastChar;
 			}
 			
@@ -165,7 +168,7 @@ var display = (function() {
 		var leadingZeroesBeforeZeroesReplacer = function(match) {
 			var firstChar = match[0];
 
-			if (firstChar == '+' || firstChar == '-' || firstChar == 'x' || firstChar == '/') {
+			if (firstChar == '+' || firstChar == '\u2011' || firstChar == 'x' || firstChar == '/') {
 				return firstChar + "0";
 			}
 			
@@ -178,7 +181,8 @@ var display = (function() {
 		                    .replace(leadingZeroesBeforeNonZeroesRegex, leadingZeroesBeforeNonZeroesReplacer)
 		                    .replace(leadingZeroesBeforeZeroesRegex, leadingZeroesBeforeZeroesReplacer)
 		                    .replace(timesRegex, "*")
-		                    .replace(trailingMinusRegex, trailingMinusReplacer);
+		                    .replace(trailingMinusRegex, trailingMinusReplacer)
+		                    .replace(minusRegex, "-");
 
 		// init previous input
 		var previousInput = replacedInput[replacedInput.length - 1];
@@ -364,7 +368,7 @@ var display = (function() {
 	// show warning
 	function showWarning(displayAfterWarning, currentInput) {
 		// init
-		var divideByZeroRegex = /\/(-)*(0*\.)*(0+[^0-9.]|0+$)/,
+		var divideByZeroRegex = /\/(\u2011)*(0*\.)*(0+[^0-9.]|0+$)/,
 		    warningType = '';
 
 		// add warning class
@@ -434,7 +438,7 @@ var util = (function() {
 
 	// checks if char is minus
 	function isMinus(char) {
-		return (char == '-');
+		return (char == '\u2011');
 	};
 
 	// checks if char is an operator, but not minus
